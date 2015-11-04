@@ -1,88 +1,85 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <WSUsername />
-  <WSPassword />
-  <ServicesEnabled>false</ServicesEnabled>
-  <ServerPort>8080</ServerPort>
-  <motion_WSActivity_iSpy>http://www.ispyconnect.com/webservices/ispy.asmx</motion_WSActivity_iSpy>
-  <Enable_Error_Reporting>false</Enable_Error_Reporting>
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <WSUsername>WSUsername1</WSUsername>
+  <WSPassword>WSPassword1</WSPassword>
+  <WSPasswordEncrypted>false</WSPasswordEncrypted>
+  <ServicesEnabled>true</ServicesEnabled>
+  <ServerPort>1</ServerPort>
+  <motion_WSActivity_iSpy>motion_WSActivity_iSpy1</motion_WSActivity_iSpy>
+  <Enable_Error_Reporting>true</Enable_Error_Reporting>
   <Enable_Update_Check>true</Enable_Update_Check>
-  <Password_Protect_Password />
-  <Enable_Password_Protect>false</Enable_Password_Protect>
-  <MJPEGURL />
-  <AVIFileName />
-  <RecentJPGList />
-  <RecentMJPGList />
-  <RecentFileList />
-  <NextCameraID>1</NextCameraID>
-  <NextMicrophoneID>0</NextMicrophoneID>
-  <Subscribed>false</Subscribed>
-  <JPEGURL />
-  <ActivityColor>255,0,0</ActivityColor>
-  <NoActivityColor>101,132,139</NoActivityColor>
-  <TrackingColor>41,176,211</TrackingColor>
-  <VolumeLevelColor>41,176,211</VolumeLevelColor>
-  <FloorPlanHighlightColor>0,217,0</FloorPlanHighlightColor>
-  <MaxRecordingThreads>20</MaxRecordingThreads>
-  <MainColor>153,153,153</MainColor>
-  <AreaColor>255,255,255</AreaColor>
-  <BackColor>64,64,64</BackColor>
-  <MaxMediaFolderSizeMB>400</MaxMediaFolderSizeMB>
-  <DeleteFilesOlderThanDays>3</DeleteFilesOlderThanDays>
-  <ServerAddress>www.ispyconnect.com</ServerAddress>
+  <Password_Protect_Password>Password_Protect_Password1</Password_Protect_Password>
+  <Enable_Password_Protect>true</Enable_Password_Protect>
+  <Password_Protect_Startup>true</Password_Protect_Startup>
+  <MJPEGURL>MJPEGURL1</MJPEGURL>
+  <AVIFileName>AVIFileName1</AVIFileName>
+  <RecentJPGList>RecentJPGList1</RecentJPGList>
+  <RecentMJPGList>RecentMJPGList1</RecentMJPGList>
+  <RecentFileList>RecentFileList1</RecentFileList>
+  <Subscribed>true</Subscribed>
+  <JPEGURL>JPEGURL1</JPEGURL>
+  <ActivityColor>ActivityColor1</ActivityColor>
+  <NoActivityColor>NoActivityColor1</NoActivityColor>
+  <TrackingColor>TrackingColor1</TrackingColor>
+  <FloorPlanHighlightColor>FloorPlanHighlightColor1</FloorPlanHighlightColor>
+  <VolumeLevelColor>VolumeLevelColor1</VolumeLevelColor>
+  <MaxRecordingThreads>4</MaxRecordingThreads>
+  <MainColor>MainColor1</MainColor>
+  <AreaColor>AreaColor1</AreaColor>
+  <BackColor>BackColor1</BackColor>
+  <MaxMediaFolderSizeMB>1</MaxMediaFolderSizeMB>
+  <DeleteFilesOlderThanDays>1</DeleteFilesOlderThanDays>
+  <ServerAddress>ServerAddress1</ServerAddress>
   <Enabled_ShowGettingStarted>true</Enabled_ShowGettingStarted>
-  <Opacity>100</Opacity>
-  <LANPort>8080</LANPort>
-  <Enable_Storage_Management>false</Enable_Storage_Management>
-  <FFMPEG_Camera>NotUsed</FFMPEG_Camera>
-  <FFMPEG_Microphone>NotUsed</FFMPEG_Microphone>
-  <TimestampColor>255,255,255</TimestampColor>
-  <BorderHighlightColor>255,255,255</BorderHighlightColor>
-  <BorderDefaultColor>0,0,0</BorderDefaultColor>
+  <Opacity>1</Opacity>
+  <LANPort>1</LANPort>
+  <Enable_Storage_Management>true</Enable_Storage_Management>
+  <FFMPEG_Camera>FFMPEG_Camera1</FFMPEG_Camera>
+  <FFMPEG_Microphone>FFMPEG_Microphone1</FFMPEG_Microphone>
+  <TimestampColor>TimestampColor1</TimestampColor>
+  <BorderHighlightColor>BorderHighlightColor1</BorderHighlightColor>
+  <BorderDefaultColor>BorderDefaultColor1</BorderDefaultColor>
   <UseUPNP>true</UseUPNP>
-  <NextFloorPlanID>0</NextFloorPlanID>
-  <YouTubeUsername />
-  <YouTubePassword />
-  <YouTubeAccount />
-  <YouTubeKey>AI39si79eKzxBxjX3A-JmPMdqF1p0poMDvWAUplpZrZdTgdTzJO4w0Om8AOzjNIG7a8ECGREepBe1cPtqkU9YQ-0yUfg73-tOg</YouTubeKey>
-  <YouTubeCategories>Film,Autos,Music,Animals,Sports,Travel,Games,Comedy,People,News,Entertainment,Education,Howto,Nonprofit,Tech</YouTubeCategories>
-  <YouTubeDefaultCategory>People</YouTubeDefaultCategory>
-  <CompressorOptions>NotUsed</CompressorOptions>
-  <NextCommandID>5</NextCommandID>
-  <LogFFMPEGCommands>false</LogFFMPEGCommands>
+  <YouTubeUsername>YouTubeUsername1</YouTubeUsername>
+  <YouTubePassword>YouTubePassword1</YouTubePassword>
+  <YouTubeAccount>YouTubeAccount1</YouTubeAccount>
+  <YouTubeKey>YouTubeKey1</YouTubeKey>
+  <YouTubeCategories>YouTubeCategories1</YouTubeCategories>
+  <YouTubeDefaultCategory>YouTubeDefaultCategory1</YouTubeDefaultCategory>
+  <YouTubeToken>YouTubeToken1</YouTubeToken>
+  <CompressorOptions>CompressorOptions1</CompressorOptions>
+  <LogFFMPEGCommands>true</LogFFMPEGCommands>
   <BalloonTips>true</BalloonTips>
-  <TrayIconText>iSpy</TrayIconText>
-  <AutoLayout>false</AutoLayout>
-  <UpnpDevice />
-  <IPMode>IPv4</IPMode>
-  <IPv4Address></IPv4Address>
-  <IPv6Address />
+  <TrayIconText>TrayIconText1</TrayIconText>
+  <AutoLayout>true</AutoLayout>
+  <UpnpDevice>UpnpDevice1</UpnpDevice>
+  <IPMode>IPMode1</IPMode>
+  <IPv4Address>IPv4Address1</IPv4Address>
+  <IPv6Address>IPv6Address1</IPv6Address>
+  <SpecificIP>false</SpecificIP>
   <DHCPReroute>true</DHCPReroute>
   <MediaDirectory>NotSet</MediaDirectory>
-  <MediaDirectories>
-    <Directory>NotSet</Directory>
-  </MediaDirectories>
   <FFMPEG_SingleProcess>true</FFMPEG_SingleProcess>
-  <Loopback>false</Loopback>
-  <ServerReceiveTimeout>1500</ServerReceiveTimeout>
-  <IPCameraTimeout>20000</IPCameraTimeout>
-  <ServerName>NotSet</ServerName>
-  <UploadedVideos />
-  <Language>en</Language>
-  <RecentVLCList />
-  <VLCURL />
+  <Loopback>true</Loopback>
+  <ServerReceiveTimeout>1</ServerReceiveTimeout>
+  <IPCameraTimeout>1</IPCameraTimeout>
+  <ServerName>ServerName1</ServerName>
+  <UploadedVideos>UploadedVideos1</UploadedVideos>
+  <Language>Language1</Language>
+  <RecentVLCList>RecentVLCList1</RecentVLCList>
+  <VLCURL>VLCURL1</VLCURL>
   <AutoSchedule>true</AutoSchedule>
-  <Fullscreen>false</Fullscreen>
+  <Fullscreen>true</Fullscreen>
   <ShowStatus>true</ShowStatus>
   <ShowToolbar>true</ShowToolbar>
   <ShowFileMenu>true</ShowFileMenu>
-  <AlwaysOnTop>false</AlwaysOnTop>
-  <LogFileSizeKB>100</LogFileSizeKB>
+  <AlwaysOnTop>true</AlwaysOnTop>
+  <LogFileSizeKB>1</LogFileSizeKB>
   <CPUMax>90</CPUMax>
   <AllowedIPList></AllowedIPList>
   <Reseller></Reseller>
   <CreateAlertWindows>true</CreateAlertWindows>
-  <MaxRedrawRate>20</MaxRedrawRate>
+  <MaxRedrawRate>10</MaxRedrawRate>
   <PreviewItems>100</PreviewItems>
   <ShowOverlayControls>true</ShowOverlayControls>
   <ShowMediaPanel>true</ShowMediaPanel>
@@ -92,45 +89,127 @@
   <ScreensaverWakeup>false</ScreensaverWakeup>
   <Vendor></Vendor>
   <TalkMic></TalkMic>
-  <PlaybackMode>1</PlaybackMode>
-  <JPEGQuality>90</JPEGQuality>
+  <PlaybackMode>0</PlaybackMode>
+  <JPEGQuality>75</JPEGQuality>
   <StopSavingOnStorageLimit>false</StopSavingOnStorageLimit>
-  <ViewController>false</ViewController>
+  <ViewController>true</ViewController>
   <LayoutMode>0</LayoutMode>
   <ShowPTZController>false</ShowPTZController>
   <BigButtons>false</BigButtons>
   <LockLayout>false</LockLayout>
   <MediaPanelSize></MediaPanelSize>
-  <WebServer>http://www.ispyconnect.com</WebServer>
-  <IPv6_Support_Disabled>true</IPv6_Support_Disabled>
+  <MinimiseOnClose>false</MinimiseOnClose>
+  <IPv6Disabled>false</IPv6Disabled>
+  <DeleteToRecycleBin>false</DeleteToRecycleBin>
   <SpeechRecognition>false</SpeechRecognition>
-  <DefaultManufacturer></DefaultManufacturer>
-  <AppendLinkText>http://www.ispyconnect.com/watch_new.aspx</AppendLinkText>
-  <GridViews></GridViews>
-  <Joystick></Joystick>
+  <DefaultManufacturer>DefaultManufacturer1</DefaultManufacturer>
+  <AppendLinkText>AppendLinkText1</AppendLinkText>
   <StartupForm>iSpy</StartupForm>
-  <FeatureSet>0</FeatureSet>
+  <TrayOnMinimise>true</TrayOnMinimise>
   <EnableGZip>true</EnableGZip>
+  <FeatureSet>0</FeatureSet>
+  <MJPEGStreamInterval>100</MJPEGStreamInterval>
+  <AlertOnDisconnect></AlertOnDisconnect>
+  <AlertOnReconnect></AlertOnReconnect>
+  <StartupMode>0</StartupMode>
+  <DisconnectNotificationDelay>60</DisconnectNotificationDelay>
   <Archive></Archive>
-  <MailAlertSubject>[EVENT]: [OBJECTNAME]</MailAlertSubject>
-  <MailAlertBody>[EVENT]: [OBJECTNAME] [RECORDED] [PLUGIN]</MailAlertBody>
-  <SMSAlert>[EVENT]: [OBJECTNAME] [RECORDED] [PLUGIN]</SMSAlert>
+  <MailAlertSubject>[EVENT]: [SERVER] [OBJECTNAME]</MailAlertSubject>
+  <MailAlertBody>[EVENT] at [DATE] [TIME]: [SERVER] [OBJECTNAME] [RECORDED] [PLUGIN]</MailAlertBody>
+  <SMSAlert>[EVENT] at [DATE] [TIME]: [SERVER] [OBJECTNAME] [RECORDED] [PLUGIN]</SMSAlert>
+  <SMTPFromAddress></SMTPFromAddress>
+  <SMTPUsername></SMTPUsername>
+  <SMTPPassword></SMTPPassword>
+  <SMTPServer></SMTPServer>
+  <SMTPPort>25</SMTPPort>
+  <UseSMTP>false</UseSMTP>
+  <SMTPSSL>false</SMTPSSL>
+  <DefaultRecordOnAlert>false</DefaultRecordOnAlert>
+  <DefaultRecordOnDetect>true</DefaultRecordOnDetect>
+  <FirstRun>true</FirstRun>
   <DeviceDriverDefault></DeviceDriverDefault>
   <SSLCertificate></SSLCertificate>
   <SSLClientRequired>false</SSLClientRequired>
   <SSLIgnoreErrors>true</SSLIgnoreErrors>
-  <SSLCheckRevocation>false</SSLCheckRevocation>
+  <SSLCheckRevocation>true</SSLCheckRevocation>
   <SSLEnabled>false</SSLEnabled>
   <GoogleDriveConfig></GoogleDriveConfig>
   <DropBoxConfig></DropBoxConfig>
-  <FTPServers></FTPServers>
   <OpenGrabs>true</OpenGrabs>
   <TextSentences></TextSentences>
   <VLCFileCache>3000</VLCFileCache>
   <Referers></Referers>
   <EncryptCode></EncryptCode>
-  <Logging FileSize="100" Enabled="true" KeepDays="7"></Logging>
+  <PortMapperMode>2</PortMapperMode>
+  <SerialPort>0</SerialPort>
+  <Logging FileSize="100" Enabled="true" KeepDays="7" />
+  <FTPServers>
+    <Server name="name1" server="server1" username="username1" password="password1" port="21" usepassive="false" sftp="false" rename="false" ident="" />
+    <Server name="name2" server="server2" username="username2" password="password2" port="1" usepassive="true" sftp="true" rename="true" ident="ident1" />
+    <Server name="name3" server="server3" username="username3" password="password3" port="-2147483647" usepassive="false" sftp="false" rename="false" ident="ident2" />
+  </FTPServers>
+  <GridViews>
+    <Grid name="name1" Rows="1" Columns="1" FullScreen="true" AlwaysOnTop="false" Framerate="5" Display="" ModeIndex="0" ModeConfig="" Fill="true" ShowAtStartup="false" Overlays="true">
+      <GridItem GridIndex="1" CycleDelay="1">
+        <Item TypeID="1" ObjectID="1" />
+        <Item TypeID="-2147483647" ObjectID="-2147483647" />
+        <Item TypeID="2147483647" ObjectID="2147483647" />
+      </GridItem>
+      <GridItem GridIndex="-2147483647" CycleDelay="-2147483647">
+        <Item TypeID="0" ObjectID="0" />
+        <Item TypeID="2" ObjectID="2" />
+        <Item TypeID="-2147483646" ObjectID="-2147483646" />
+      </GridItem>
+      <GridItem GridIndex="2147483647" CycleDelay="2147483647">
+        <Item TypeID="2147483646" ObjectID="2147483646" />
+        <Item TypeID="-1" ObjectID="-1" />
+        <Item TypeID="3" ObjectID="3" />
+      </GridItem>
+    </Grid>
+    <Grid name="name2" Rows="1" Columns="1" FullScreen="true" AlwaysOnTop="true" Framerate="1" Display="Display1" ModeIndex="1" ModeConfig="ModeConfig1" Fill="true" ShowAtStartup="true" Overlays="true">
+      <GridItem GridIndex="0" CycleDelay="0">
+        <Item TypeID="-2147483645" ObjectID="-2147483645" />
+        <Item TypeID="2147483645" ObjectID="2147483645" />
+        <Item TypeID="-2" ObjectID="-2" />
+      </GridItem>
+      <GridItem GridIndex="2" CycleDelay="2">
+        <Item TypeID="4" ObjectID="4" />
+        <Item TypeID="-2147483644" ObjectID="-2147483644" />
+        <Item TypeID="2147483644" ObjectID="2147483644" />
+      </GridItem>
+      <GridItem GridIndex="-2147483646" CycleDelay="-2147483646">
+        <Item TypeID="-3" ObjectID="-3" />
+        <Item TypeID="5" ObjectID="5" />
+        <Item TypeID="-2147483643" ObjectID="-2147483643" />
+      </GridItem>
+    </Grid>
+    <Grid name="name3" Rows="-2147483647" Columns="-2147483647" FullScreen="false" AlwaysOnTop="false" Framerate="-2147483647" Display="Display2" ModeIndex="-2147483647" ModeConfig="ModeConfig2" Fill="false" ShowAtStartup="false" Overlays="false">
+      <GridItem GridIndex="2147483646" CycleDelay="2147483646">
+        <Item TypeID="2147483643" ObjectID="2147483643" />
+        <Item TypeID="-4" ObjectID="-4" />
+        <Item TypeID="6" ObjectID="6" />
+      </GridItem>
+      <GridItem GridIndex="-1" CycleDelay="-1">
+        <Item TypeID="-2147483642" ObjectID="-2147483642" />
+        <Item TypeID="2147483642" ObjectID="2147483642" />
+        <Item TypeID="-5" ObjectID="-5" />
+      </GridItem>
+      <GridItem GridIndex="3" CycleDelay="3">
+        <Item TypeID="7" ObjectID="7" />
+        <Item TypeID="-2147483641" ObjectID="-2147483641" />
+        <Item TypeID="2147483641" ObjectID="2147483641" />
+      </GridItem>
+    </Grid>
+  </GridViews>
+  <Joystick id="" XAxis="0" CenterXAxis="0" InvertXAxis="false" YAxis="0" CenterYAxis="0" InvertYAxis="false" ZAxis="0" CenterZAxis="0" InvertZAxis="false" Record="0" Snapshot="0" Listen="0" Talk="0" Play="0" Stop="0" Next="0" Previous="0" MaxMin="0" />
+  <MediaDirectories>
+    <Directory Entry="NotSet" Enable_Storage_Management="false" StopSavingOnStorageLimit="false" StopSavingFlag="false" MaxMediaFolderSizeMB="200" DeleteFilesOlderThanDays="0" ID="0" archive="false" />
+    <Directory Entry="Entry1" Enable_Storage_Management="true" StopSavingOnStorageLimit="true" StopSavingFlag="true" MaxMediaFolderSizeMB="1" DeleteFilesOlderThanDays="1" ID="1" archive="true" />
+    <Directory Entry="Entry2" Enable_Storage_Management="false" StopSavingOnStorageLimit="false" StopSavingFlag="false" MaxMediaFolderSizeMB="-2147483647" DeleteFilesOlderThanDays="-2147483647" ID="-2147483647" archive="false" />
+  </MediaDirectories>
   <Permissions>
-    <group name="Admin" featureset="1" password=""/>
+    <group name="name1" featureset="1" password="password1" />
+    <group name="name2" featureset="-9223372036854775807" password="password2" />
+    <group name="name3" featureset="9223372036854775807" password="password3" />
   </Permissions>
 </configuration>

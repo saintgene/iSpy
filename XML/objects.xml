@@ -1,7 +1,712 @@
 <?xml version="1.0" encoding="utf-8"?>
-<objects xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <cameras/>
-  <microphones />
-  <floorplans />
-  <remotecommands/>
+<objects>
+  <Version>0</Version>
+  <cameras>
+    <camera id="1" name="name1" description="anySimpleType" directory="anySimpleType" RecCounter="0" flipx="true" flipy="true" rotate90="false" rotateMode="" x="1" y="1" width="1" height="1" resolution="resolution1" decodekey="decodekey1" ptz="1" ptzentryindex="0" newrecordingcount="0" surfaceID="0">
+      <settings desktopresizewidth="1" desktopresizeheight="1" resize="true" desktopmouse="true" calibrateonreconnect="true" ignoreaudio="false" FishEyeCorrect="false" FishEyeLimit="1500" FishEyeScale="0.9" FishEyeFocalLengthPX="700">
+        <sourceindex>1</sourceindex>
+        <codec>codec1</codec>
+        <videosourcestring>videosourcestring1</videosourcestring>
+        <onvifident>onvifident1</onvifident>
+        <login>login1</login>
+        <password>password1</password>
+        <useragent>useragent1</useragent>
+        <suppressnoise>true</suppressnoise>
+        <audioport>1</audioport>
+        <audiomodel>audiomodel1</audiomodel>
+        <audioip>audioip1</audioip>
+        <audiousername>audiousername1</audiousername>
+        <audiopassword>audiopassword1</audiopassword>
+        <usehttp10>true</usehttp10>
+        <active>true</active>
+        <notifyondisconnect>true</notifyondisconnect>
+        <emailondisconnect>emailondisconnect1</emailondisconnect>
+        <frameinterval>1</frameinterval>
+        <framerate>1</framerate>
+        <smsnumber>smsnumber1</smsnumber>
+        <emailaddress>emailaddress1</emailaddress>
+        <ffmpeg>ffmpeg1</ffmpeg>
+        <deleteavi>true</deleteavi>
+        <micpair>1</micpair>
+        <maskimage>maskimage1</maskimage>
+        <timestampformatter>timestampformatter1</timestampformatter>
+        <timestamplocation>1</timestamplocation>
+        <timestampfontsize>10</timestampfontsize>
+        <timestampoffset>0</timestampoffset>
+        <timestampforecolor></timestampforecolor>
+        <timestampbackcolor></timestampbackcolor>
+        <timestampfont></timestampfont>
+        <timestampshowback>true</timestampshowback>
+        <desktoparea>desktoparea1</desktoparea>
+        <vlcargs>vlcargs1</vlcargs>
+        <ptzusername>ptzusername1</ptzusername>
+        <ptzpassword>ptzpassword1</ptzpassword>
+        <ptzflipx>false</ptzflipx>
+        <ptzflipy>false</ptzflipy>
+        <ptzrotate90>false</ptzrotate90>
+        <ptzurlbase>ptzurlbase1</ptzurlbase>
+        <ptzautotrack>false</ptzautotrack>
+        <ptzautotrackreverse>false</ptzautotrackreverse>
+        <ptzautohome>false</ptzautohome>
+        <ptzchannel>0</ptzchannel>
+        <ptzautohomecommand></ptzautohomecommand>
+        <ptzautohomedelay>30</ptzautohomedelay>
+        <ptztimetohome>60</ptztimetohome>
+        <ptzautotrackmode>0</ptzautotrackmode>
+        <ptzpelcoconfig></ptzpelcoconfig>
+        <maxframerate>10</maxframerate>
+        <maxframeraterecord>10</maxframeraterecord>
+        <reconnectinterval>0</reconnectinterval>
+        <namevaluesettings></namevaluesettings>
+        <accessgroups></accessgroups>
+        <forcebasic>true</forcebasic>
+        <crossbarindex>0</crossbarindex>
+        <cookies></cookies>
+        <bordertimeout>0</bordertimeout>
+        <headers></headers>
+        <analyseduration>2000</analyseduration>
+        <timeout>8000</timeout>
+        <nobuffer>false</nobuffer>
+        <rtspmode>0</rtspmode>
+        <procAmpConfig></procAmpConfig>
+        <messaging>true</messaging>
+        <directoryIndex>0</directoryIndex>
+        <youtube>
+          <public>false</public>
+          <tags>tags1</tags>
+          <category>category1</category>
+        </youtube>
+        <cloudprovider>
+          <provider>Google Drive</provider>
+          <recordings>false</recordings>
+          <images>false</images>
+          <path>[MEDIATYPE]/[NAME]/</path>
+        </cloudprovider>
+        <storagemanagement>
+          <enabled>false</enabled>
+          <maxsize>1</maxsize>
+          <maxage>1</maxage>
+          <archive>false</archive>
+        </storagemanagement>
+        <pip>
+          <enabled>false</enabled>
+          <config>config1</config>
+        </pip>
+      </settings>
+      <ftp>
+        <enabled>true</enabled>
+        <server>server1</server>
+        <username>username1</username>
+        <password>password1</password>
+        <port>1</port>
+        <usepassive>true</usepassive>
+        <rename>true</rename>
+        <ready>true</ready>
+        <ident>ident1</ident>
+        <filename>mylivecamerafeed.jpg</filename>
+        <interval>1</interval>
+        <intervalnew>-1</intervalnew>
+        <counter>1</counter>
+        <countermax>1</countermax>
+        <ftpcounter>1</ftpcounter>
+        <minimumdelay>0</minimumdelay>
+        <mode>2</mode>
+        <text>www.ispyconnect.com</text>
+        <savelocal>false</savelocal>
+        <quality>1</quality>
+        <localfilename>{0:yyyy-MM-dd_HH-mm-ss_fff}.jpg</localfilename>
+      </ftp>
+      <savelocal>
+        <enabled>true</enabled>
+        <filename>{0:yyyy-MM-dd_HH-mm-ss_fff}.jpg</filename>
+        <intervalnew>-1</intervalnew>
+        <counter>1</counter>
+        <countermax>1</countermax>
+        <minimumdelay>0</minimumdelay>
+        <mode>2</mode>
+        <text>www.ispyconnect.com</text>
+        <quality>1</quality>
+      </savelocal>
+      <detector type="type1" postprocessor="postprocessor1" nomovementinterval="1" movementinterval="1" nomovementintervalnew="-1" movementintervalnew="-1" calibrationdelay="1" sensitivity="1" maxsensitivity="100" minsensitivity="20" color="color1" keepobjectedges="true" recordondetect="true" recordonalert="true" processeveryframe="1" minwidth="20" minheight="20" highlight="false" colourprocessing="" colourprocessingenabled="false" autooff="0" gain="10">
+        <motionzones>
+          <zone left="1" top="1" width="1" height="1" />
+          <zone left="-2147483647" top="-2147483647" width="-2147483647" height="-2147483647" />
+          <zone left="2147483647" top="2147483647" width="2147483647" height="2147483647" />
+        </motionzones>
+      </detector>
+      <recorder bufferseconds="1" inactiverecord="1" minrecordtime="0" maxrecordtime="1" timelapse="1" timelapseframes="1" timelapseenabled="false" quality="8" timelapsesave="60" timelapseframerate="5" profile="0" crf="true" trigger="" />
+      <alerts minimuminterval="1" resetinterval="0" groupname="" objectcountalert="1" active="true" mode="mode1" overlay="true" pluginconfig="" processmode="continuous" maximise="false" trigger="" playsound="">
+        <alertoptions>alertoptions1</alertoptions>
+        <executefile>executefile1</executefile>
+        <arguments>arguments1</arguments>
+      </alerts>
+      <notifications emailgrabinterval="1" sendemail="true" sendsms="true" sendmms="true" sendtwitter="false" />
+      <alertevents>
+        <entries>
+          <entry type="type1" param1="" param2="" param3="" param4="" />
+          <entry type="type2" param1="param11" param2="param21" param3="param31" param4="param41" />
+          <entry type="type3" param1="param12" param2="param22" param3="param32" param4="param42" />
+        </entries>
+      </alertevents>
+      <schedule active="true">
+        <entries>
+          <entry start="start1" stop="stop1" daysofweek="daysofweek1" recordonstart="true" active="true" recordondetect="true" recordonalert="true" timelapseenabled="true" ptz="true" ftpenabled="false" savelocalenabled="false" alerts="true" messaging="true" />
+          <entry start="start2" stop="stop2" daysofweek="daysofweek2" recordonstart="true" active="true" recordondetect="true" recordonalert="true" timelapseenabled="true" ptz="true" ftpenabled="true" savelocalenabled="true" alerts="true" messaging="true" />
+          <entry start="start3" stop="stop3" daysofweek="daysofweek3" recordonstart="false" active="false" recordondetect="false" recordonalert="false" timelapseenabled="false" ptz="false" ftpenabled="false" savelocalenabled="false" alerts="false" messaging="false" />
+        </entries>
+      </schedule>
+      <ptzschedule active="true" suspend="true">
+        <entries>
+          <entry command="command1" time="1900-01-01T01:01:01-05:00" />
+          <entry command="command2" time="0001-01-01T00:00:00-05:00" />
+          <entry command="command3" time="9999-12-31T23:59:59.9999999-05:00" />
+        </entries>
+      </ptzschedule>
+    </camera>
+    <camera id="-2147483647" name="name2" description="anySimpleType" directory="anySimpleType" RecCounter="1" flipx="false" flipy="false" rotate90="true" rotateMode="rotateMode1" x="-2147483647" y="-2147483647" width="-2147483647" height="-2147483647" resolution="resolution2" decodekey="decodekey2" ptz="-2147483647" ptzentryindex="1" newrecordingcount="1" surfaceID="1">
+      <settings desktopresizewidth="-2147483647" desktopresizeheight="-2147483647" resize="false" desktopmouse="false" calibrateonreconnect="true" ignoreaudio="true" FishEyeCorrect="true" FishEyeLimit="1" FishEyeScale="1" FishEyeFocalLengthPX="1">
+        <sourceindex>-2147483647</sourceindex>
+        <codec>codec2</codec>
+        <videosourcestring>videosourcestring2</videosourcestring>
+        <onvifident>onvifident2</onvifident>
+        <login>login2</login>
+        <password>password2</password>
+        <useragent>useragent2</useragent>
+        <suppressnoise>false</suppressnoise>
+        <audioport>-2147483647</audioport>
+        <audiomodel>audiomodel2</audiomodel>
+        <audioip>audioip2</audioip>
+        <audiousername>audiousername2</audiousername>
+        <audiopassword>audiopassword2</audiopassword>
+        <usehttp10>false</usehttp10>
+        <active>false</active>
+        <notifyondisconnect>false</notifyondisconnect>
+        <emailondisconnect>emailondisconnect2</emailondisconnect>
+        <frameinterval>-2147483647</frameinterval>
+        <framerate>-2147483647</framerate>
+        <smsnumber>smsnumber2</smsnumber>
+        <emailaddress>emailaddress2</emailaddress>
+        <ffmpeg>ffmpeg2</ffmpeg>
+        <deleteavi>false</deleteavi>
+        <micpair>-2147483647</micpair>
+        <maskimage>maskimage2</maskimage>
+        <timestampformatter>timestampformatter2</timestampformatter>
+        <timestamplocation>-2147483647</timestamplocation>
+        <timestampfontsize>1</timestampfontsize>
+        <timestampoffset>1</timestampoffset>
+        <timestampforecolor>timestampforecolor1</timestampforecolor>
+        <timestampbackcolor>timestampbackcolor1</timestampbackcolor>
+        <timestampfont>timestampfont1</timestampfont>
+        <timestampshowback>true</timestampshowback>
+        <desktoparea>desktoparea2</desktoparea>
+        <vlcargs>vlcargs2</vlcargs>
+        <ptzusername>ptzusername2</ptzusername>
+        <ptzpassword>ptzpassword2</ptzpassword>
+        <ptzflipx>true</ptzflipx>
+        <ptzflipy>true</ptzflipy>
+        <ptzrotate90>true</ptzrotate90>
+        <ptzurlbase>ptzurlbase2</ptzurlbase>
+        <ptzautotrack>true</ptzautotrack>
+        <ptzautotrackreverse>true</ptzautotrackreverse>
+        <ptzautohome>true</ptzautohome>
+        <ptzchannel>ptzchannel1</ptzchannel>
+        <ptzautohomecommand>ptzautohomecommand1</ptzautohomecommand>
+        <ptzautohomedelay>1</ptzautohomedelay>
+        <ptztimetohome>1</ptztimetohome>
+        <ptzautotrackmode>1</ptzautotrackmode>
+        <ptzpelcoconfig>ptzpelcoconfig1</ptzpelcoconfig>
+        <maxframerate>1</maxframerate>
+        <maxframeraterecord>1</maxframeraterecord>
+        <reconnectinterval>1</reconnectinterval>
+        <namevaluesettings>namevaluesettings1</namevaluesettings>
+        <accessgroups>accessgroups1</accessgroups>
+        <forcebasic>true</forcebasic>
+        <crossbarindex>1</crossbarindex>
+        <cookies>cookies1</cookies>
+        <bordertimeout>1</bordertimeout>
+        <headers>headers1</headers>
+        <analyseduration>1</analyseduration>
+        <timeout>1</timeout>
+        <nobuffer>true</nobuffer>
+        <rtspmode>1</rtspmode>
+        <procAmpConfig>procAmpConfig1</procAmpConfig>
+        <messaging>true</messaging>
+        <directoryIndex>1</directoryIndex>
+        <youtube>
+          <public>true</public>
+          <tags>tags2</tags>
+          <category>category2</category>
+        </youtube>
+        <cloudprovider>
+          <provider>provider1</provider>
+          <recordings>true</recordings>
+          <images>true</images>
+          <path>path1</path>
+        </cloudprovider>
+        <storagemanagement>
+          <enabled>true</enabled>
+          <maxsize>-2147483647</maxsize>
+          <maxage>-2147483647</maxage>
+          <archive>true</archive>
+        </storagemanagement>
+        <pip>
+          <enabled>true</enabled>
+          <config>config2</config>
+        </pip>
+      </settings>
+      <ftp>
+        <enabled>false</enabled>
+        <server>server2</server>
+        <username>username2</username>
+        <password>password2</password>
+        <port>-2147483647</port>
+        <usepassive>false</usepassive>
+        <rename>false</rename>
+        <ready>false</ready>
+        <ident>ident2</ident>
+        <filename>filename1</filename>
+        <interval>-2147483647</interval>
+        <intervalnew>1</intervalnew>
+        <counter>-2147483647</counter>
+        <countermax>-2147483647</countermax>
+        <ftpcounter>-2147483647</ftpcounter>
+        <minimumdelay>1</minimumdelay>
+        <mode>1</mode>
+        <text>text1</text>
+        <savelocal>true</savelocal>
+        <quality>-2147483647</quality>
+        <localfilename>localfilename1</localfilename>
+      </ftp>
+      <savelocal>
+        <enabled>false</enabled>
+        <filename>filename1</filename>
+        <intervalnew>1</intervalnew>
+        <counter>-2147483647</counter>
+        <countermax>-2147483647</countermax>
+        <minimumdelay>1</minimumdelay>
+        <mode>1</mode>
+        <text>text1</text>
+        <quality>-2147483647</quality>
+      </savelocal>
+      <detector type="type2" postprocessor="postprocessor2" nomovementinterval="-2147483647" movementinterval="-2147483647" nomovementintervalnew="1" movementintervalnew="1" calibrationdelay="-2147483647" sensitivity="-1.7976931348623157E+308" maxsensitivity="1" minsensitivity="1" color="color2" keepobjectedges="false" recordondetect="false" recordonalert="false" processeveryframe="-2147483647" minwidth="1" minheight="1" highlight="true" colourprocessing="colourprocessing1" colourprocessingenabled="true" autooff="1" gain="1">
+        <motionzones>
+          <zone left="0" top="0" width="0" height="0" />
+          <zone left="2" top="2" width="2" height="2" />
+          <zone left="-2147483646" top="-2147483646" width="-2147483646" height="-2147483646" />
+        </motionzones>
+      </detector>
+      <recorder bufferseconds="-2147483647" inactiverecord="-2147483647" minrecordtime="1" maxrecordtime="-2147483647" timelapse="-2147483647" timelapseframes="-2147483647" timelapseenabled="true" quality="1" timelapsesave="1" timelapseframerate="1" profile="1" crf="true" trigger="trigger1" />
+      <alerts minimuminterval="-2147483647" resetinterval="1" groupname="groupname1" objectcountalert="-2147483647" active="false" mode="mode2" overlay="true" pluginconfig="pluginconfig1" processmode="processmode1" maximise="true" trigger="trigger1" playsound="playsound1">
+        <alertoptions>alertoptions2</alertoptions>
+        <executefile>executefile2</executefile>
+        <arguments>arguments2</arguments>
+      </alerts>
+      <notifications emailgrabinterval="-2147483647" sendemail="false" sendsms="false" sendmms="false" sendtwitter="true" />
+      <alertevents>
+        <entries>
+          <entry type="type4" param1="param13" param2="param23" param3="param33" param4="param43" />
+          <entry type="type5" param1="param14" param2="param24" param3="param34" param4="param44" />
+          <entry type="type6" param1="param15" param2="param25" param3="param35" param4="param45" />
+        </entries>
+      </alertevents>
+      <schedule active="false">
+        <entries>
+          <entry start="start4" stop="stop4" daysofweek="daysofweek4" recordonstart="true" active="true" recordondetect="true" recordonalert="true" timelapseenabled="true" ptz="true" ftpenabled="true" savelocalenabled="true" alerts="true" messaging="true" />
+          <entry start="start5" stop="stop5" daysofweek="daysofweek5" recordonstart="false" active="false" recordondetect="false" recordonalert="false" timelapseenabled="false" ptz="false" ftpenabled="false" savelocalenabled="false" alerts="false" messaging="false" />
+          <entry start="start6" stop="stop6" daysofweek="daysofweek6" recordonstart="true" active="true" recordondetect="true" recordonalert="true" timelapseenabled="true" ptz="true" ftpenabled="true" savelocalenabled="true" alerts="true" messaging="true" />
+        </entries>
+      </schedule>
+      <ptzschedule active="false" suspend="false">
+        <entries>
+          <entry command="command4" time="1899-11-30T01:01:01-05:00" />
+          <entry command="command5" time="1900-02-02T01:01:01-05:00" />
+          <entry command="command6" time="0001-02-02T00:00:00-05:00" />
+        </entries>
+      </ptzschedule>
+    </camera>
+    <camera id="2147483647" name="name3" description="anySimpleType" directory="anySimpleType" RecCounter="-2147483647" flipx="true" flipy="true" rotate90="false" rotateMode="rotateMode2" x="2147483647" y="2147483647" width="2147483647" height="2147483647" resolution="resolution3" decodekey="decodekey3" ptz="2147483647" ptzentryindex="-2147483647" newrecordingcount="-2147483647" surfaceID="-2147483647">
+      <settings desktopresizewidth="2147483647" desktopresizeheight="2147483647" resize="true" desktopmouse="true" calibrateonreconnect="false" ignoreaudio="false" FishEyeCorrect="false" FishEyeLimit="-2147483647" FishEyeScale="-1.7976931348623157E+308" FishEyeFocalLengthPX="-2147483647">
+        <sourceindex>2147483647</sourceindex>
+        <codec>codec3</codec>
+        <videosourcestring>videosourcestring3</videosourcestring>
+        <onvifident>onvifident3</onvifident>
+        <login>login3</login>
+        <password>password3</password>
+        <useragent>useragent3</useragent>
+        <suppressnoise>true</suppressnoise>
+        <audioport>2147483647</audioport>
+        <audiomodel>audiomodel3</audiomodel>
+        <audioip>audioip3</audioip>
+        <audiousername>audiousername3</audiousername>
+        <audiopassword>audiopassword3</audiopassword>
+        <usehttp10>true</usehttp10>
+        <active>true</active>
+        <notifyondisconnect>true</notifyondisconnect>
+        <emailondisconnect>emailondisconnect3</emailondisconnect>
+        <frameinterval>2147483647</frameinterval>
+        <framerate>2147483647</framerate>
+        <smsnumber>smsnumber3</smsnumber>
+        <emailaddress>emailaddress3</emailaddress>
+        <ffmpeg>ffmpeg3</ffmpeg>
+        <deleteavi>true</deleteavi>
+        <micpair>2147483647</micpair>
+        <maskimage>maskimage3</maskimage>
+        <timestampformatter>timestampformatter3</timestampformatter>
+        <timestamplocation>2147483647</timestamplocation>
+        <timestampfontsize>-2147483647</timestampfontsize>
+        <timestampoffset>-79228162514264337593543950335</timestampoffset>
+        <timestampforecolor>timestampforecolor2</timestampforecolor>
+        <timestampbackcolor>timestampbackcolor2</timestampbackcolor>
+        <timestampfont>timestampfont2</timestampfont>
+        <timestampshowback>false</timestampshowback>
+        <desktoparea>desktoparea3</desktoparea>
+        <vlcargs>vlcargs3</vlcargs>
+        <ptzusername>ptzusername3</ptzusername>
+        <ptzpassword>ptzpassword3</ptzpassword>
+        <ptzflipx>false</ptzflipx>
+        <ptzflipy>false</ptzflipy>
+        <ptzrotate90>false</ptzrotate90>
+        <ptzurlbase>ptzurlbase3</ptzurlbase>
+        <ptzautotrack>false</ptzautotrack>
+        <ptzautotrackreverse>false</ptzautotrackreverse>
+        <ptzautohome>false</ptzautohome>
+        <ptzchannel>ptzchannel2</ptzchannel>
+        <ptzautohomecommand>ptzautohomecommand2</ptzautohomecommand>
+        <ptzautohomedelay>-2147483647</ptzautohomedelay>
+        <ptztimetohome>-2147483647</ptztimetohome>
+        <ptzautotrackmode>-2147483647</ptzautotrackmode>
+        <ptzpelcoconfig>ptzpelcoconfig2</ptzpelcoconfig>
+        <maxframerate>-2147483647</maxframerate>
+        <maxframeraterecord>-2147483647</maxframeraterecord>
+        <reconnectinterval>-2147483647</reconnectinterval>
+        <namevaluesettings>namevaluesettings2</namevaluesettings>
+        <accessgroups>accessgroups2</accessgroups>
+        <forcebasic>false</forcebasic>
+        <crossbarindex>-2147483647</crossbarindex>
+        <cookies>cookies2</cookies>
+        <bordertimeout>-2147483647</bordertimeout>
+        <headers>headers2</headers>
+        <analyseduration>-2147483647</analyseduration>
+        <timeout>-2147483647</timeout>
+        <nobuffer>false</nobuffer>
+        <rtspmode>-2147483647</rtspmode>
+        <procAmpConfig>procAmpConfig2</procAmpConfig>
+        <messaging>false</messaging>
+        <directoryIndex>-2147483647</directoryIndex>
+        <youtube>
+          <public>false</public>
+          <tags>tags3</tags>
+          <category>category3</category>
+        </youtube>
+        <cloudprovider>
+          <provider>provider2</provider>
+          <recordings>false</recordings>
+          <images>false</images>
+          <path>path2</path>
+        </cloudprovider>
+        <storagemanagement>
+          <enabled>false</enabled>
+          <maxsize>2147483647</maxsize>
+          <maxage>2147483647</maxage>
+          <archive>false</archive>
+        </storagemanagement>
+        <pip>
+          <enabled>false</enabled>
+          <config>config3</config>
+        </pip>
+      </settings>
+      <ftp>
+        <enabled>true</enabled>
+        <server>server3</server>
+        <username>username3</username>
+        <password>password3</password>
+        <port>2147483647</port>
+        <usepassive>true</usepassive>
+        <rename>true</rename>
+        <ready>true</ready>
+        <ident>ident3</ident>
+        <filename>filename2</filename>
+        <interval>2147483647</interval>
+        <intervalnew>-1.7976931348623157E+308</intervalnew>
+        <counter>2147483647</counter>
+        <countermax>2147483647</countermax>
+        <ftpcounter>2147483647</ftpcounter>
+        <minimumdelay>-1.7976931348623157E+308</minimumdelay>
+        <mode>-2147483647</mode>
+        <text>text2</text>
+        <savelocal>false</savelocal>
+        <quality>2147483647</quality>
+        <localfilename>localfilename2</localfilename>
+      </ftp>
+      <savelocal>
+        <enabled>true</enabled>
+        <filename>filename2</filename>
+        <intervalnew>-1.7976931348623157E+308</intervalnew>
+        <counter>2147483647</counter>
+        <countermax>2147483647</countermax>
+        <minimumdelay>-1.7976931348623157E+308</minimumdelay>
+        <mode>-2147483647</mode>
+        <text>text2</text>
+        <quality>2147483647</quality>
+      </savelocal>
+      <detector type="type3" postprocessor="postprocessor3" nomovementinterval="2147483647" movementinterval="2147483647" nomovementintervalnew="-1.7976931348623157E+308" movementintervalnew="-1.7976931348623157E+308" calibrationdelay="2147483647" sensitivity="1.7976931348623157E+308" maxsensitivity="-1.7976931348623157E+308" minsensitivity="-1.7976931348623157E+308" color="color3" keepobjectedges="true" recordondetect="true" recordonalert="true" processeveryframe="2147483647" minwidth="-2147483647" minheight="-2147483647" highlight="false" colourprocessing="colourprocessing2" colourprocessingenabled="false" autooff="-2147483647" gain="-3.40282347E+38">
+        <motionzones>
+          <zone left="2147483646" top="2147483646" width="2147483646" height="2147483646" />
+          <zone left="-1" top="-1" width="-1" height="-1" />
+          <zone left="3" top="3" width="3" height="3" />
+        </motionzones>
+      </detector>
+      <recorder bufferseconds="2147483647" inactiverecord="2147483647" minrecordtime="-2147483647" maxrecordtime="2147483647" timelapse="2147483647" timelapseframes="2147483647" timelapseenabled="false" quality="-2147483647" timelapsesave="-2147483647" timelapseframerate="-2147483647" profile="-2147483647" crf="false" trigger="trigger2" />
+      <alerts minimuminterval="2147483647" resetinterval="-2147483647" groupname="groupname2" objectcountalert="2147483647" active="true" mode="mode3" overlay="false" pluginconfig="pluginconfig2" processmode="processmode2" maximise="false" trigger="trigger2" playsound="playsound2">
+        <alertoptions>alertoptions3</alertoptions>
+        <executefile>executefile3</executefile>
+        <arguments>arguments3</arguments>
+      </alerts>
+      <notifications emailgrabinterval="2147483647" sendemail="true" sendsms="true" sendmms="true" sendtwitter="false" />
+      <alertevents>
+        <entries>
+          <entry type="type7" param1="param16" param2="param26" param3="param36" param4="param46" />
+          <entry type="type8" param1="param17" param2="param27" param3="param37" param4="param47" />
+          <entry type="type9" param1="param18" param2="param28" param3="param38" param4="param48" />
+        </entries>
+      </alertevents>
+      <schedule active="true">
+        <entries>
+          <entry start="start7" stop="stop7" daysofweek="daysofweek7" recordonstart="false" active="false" recordondetect="false" recordonalert="false" timelapseenabled="false" ptz="false" ftpenabled="false" savelocalenabled="false" alerts="false" messaging="false" />
+          <entry start="start8" stop="stop8" daysofweek="daysofweek8" recordonstart="true" active="true" recordondetect="true" recordonalert="true" timelapseenabled="true" ptz="true" ftpenabled="true" savelocalenabled="true" alerts="true" messaging="true" />
+          <entry start="start9" stop="stop9" daysofweek="daysofweek9" recordonstart="false" active="false" recordondetect="false" recordonalert="false" timelapseenabled="false" ptz="false" ftpenabled="false" savelocalenabled="false" alerts="false" messaging="false" />
+        </entries>
+      </schedule>
+      <ptzschedule active="true" suspend="true">
+        <entries>
+          <entry command="command7" time="9999-11-29T23:59:59.9999999-05:00" />
+          <entry command="command8" time="1899-10-29T01:01:01-05:00" />
+          <entry command="command9" time="1900-03-06T01:01:01-05:00" />
+        </entries>
+      </ptzschedule>
+    </camera>
+  </cameras>
+  <microphones>
+    <microphone id="1" name="name1" description="anySimpleType" directory="anySimpleType" x="1" y="1" width="1" height="1" newrecordingcount="0" surfaceID="0">
+      <settings>
+        <sourceindex>1</sourceindex>
+        <buffer>1</buffer>
+        <samples>1</samples>
+        <bits>1</bits>
+        <channels>1</channels>
+        <needsupdate>true</needsupdate>
+        <active>true</active>
+        <smsnumber>smsnumber1</smsnumber>
+        <emailaddress>emailaddress1</emailaddress>
+        <sourcename>sourcename1</sourcename>
+        <deviceout>deviceout1</deviceout>
+        <typeindex>1</typeindex>
+        <volume>50</volume>
+        <gain>1</gain>
+        <messaging>true</messaging>
+        <username>username1</username>
+        <password>password1</password>
+        <ffmpeg>ffmpeg1</ffmpeg>
+        <deletewav>true</deletewav>
+        <decompress>true</decompress>
+        <notifyondisconnect>true</notifyondisconnect>
+        <emailondisconnect>emailondisconnect1</emailondisconnect>
+        <vlcargs>vlcargs1</vlcargs>
+        <reconnectinterval>1</reconnectinterval>
+        <accessgroups></accessgroups>
+        <timeout>8000</timeout>
+        <analyzeduration>2000</analyzeduration>
+        <storagemanagement>
+          <enabled>false</enabled>
+          <maxsize>1</maxsize>
+          <maxage>1</maxage>
+          <archive>false</archive>
+        </storagemanagement>
+        <directoryIndex>0</directoryIndex>
+      </settings>
+      <detector sensitivity="1" maxsensitivity="100" minsensitivity="-1" nosoundinterval="1" soundinterval="1" recordondetect="true" recordonalert="true" gain="1" />
+      <recorder inactiverecord="1" minrecordtime="0" maxrecordtime="1" trigger="" />
+      <alerts minimuminterval="1" resetinterval="0" groupname="" active="true" mode="mode1" trigger="">
+        <alertoptions>alertoptions1</alertoptions>
+        <executefile>executefile1</executefile>
+        <arguments>arguments1</arguments>
+      </alerts>
+      <notifications sendemail="true" sendsms="true" sendtwitter="false" />
+      <alertevents>
+        <entries>
+          <entry type="type1" param1="" param2="" param3="" param4="" />
+          <entry type="type2" param1="param11" param2="param21" param3="param31" param4="param41" />
+          <entry type="type3" param1="param12" param2="param22" param3="param32" param4="param42" />
+        </entries>
+      </alertevents>
+      <schedule active="true">
+        <entries>
+          <entry start="start1" stop="stop1" daysofweek="daysofweek1" recordonstart="true" active="true" recordondetect="true" recordonalert="true" alerts="true" messaging="true" />
+          <entry start="start2" stop="stop2" daysofweek="daysofweek2" recordonstart="true" active="true" recordondetect="true" recordonalert="true" alerts="true" messaging="true" />
+          <entry start="start3" stop="stop3" daysofweek="daysofweek3" recordonstart="false" active="false" recordondetect="false" recordonalert="false" alerts="false" messaging="false" />
+        </entries>
+      </schedule>
+    </microphone>
+    <microphone id="-2147483647" name="name2" description="anySimpleType" directory="anySimpleType" x="-2147483647" y="-2147483647" width="-2147483647" height="-2147483647" newrecordingcount="1" surfaceID="1">
+      <settings>
+        <sourceindex>-2147483647</sourceindex>
+        <buffer>-2147483647</buffer>
+        <samples>-2147483647</samples>
+        <bits>-2147483647</bits>
+        <channels>-2147483647</channels>
+        <needsupdate>false</needsupdate>
+        <active>false</active>
+        <smsnumber>smsnumber2</smsnumber>
+        <emailaddress>emailaddress2</emailaddress>
+        <sourcename>sourcename2</sourcename>
+        <deviceout>deviceout2</deviceout>
+        <typeindex>-2147483647</typeindex>
+        <volume>1</volume>
+        <gain>1</gain>
+        <messaging>true</messaging>
+        <username>username2</username>
+        <password>password2</password>
+        <ffmpeg>ffmpeg2</ffmpeg>
+        <deletewav>false</deletewav>
+        <decompress>false</decompress>
+        <notifyondisconnect>false</notifyondisconnect>
+        <emailondisconnect>emailondisconnect2</emailondisconnect>
+        <vlcargs>vlcargs2</vlcargs>
+        <reconnectinterval>-2147483647</reconnectinterval>
+        <accessgroups>accessgroups1</accessgroups>
+        <timeout>1</timeout>
+        <analyzeduration>1</analyzeduration>
+        <storagemanagement>
+          <enabled>true</enabled>
+          <maxsize>-2147483647</maxsize>
+          <maxage>-2147483647</maxage>
+          <archive>true</archive>
+        </storagemanagement>
+        <directoryIndex>1</directoryIndex>
+      </settings>
+      <detector sensitivity="-2147483647" maxsensitivity="1" minsensitivity="1" nosoundinterval="-2147483647" soundinterval="-2147483647" recordondetect="false" recordonalert="false" gain="1" />
+      <recorder inactiverecord="-2147483647" minrecordtime="1" maxrecordtime="-2147483647" trigger="trigger1" />
+      <alerts minimuminterval="-2147483647" resetinterval="1" groupname="groupname1" active="false" mode="mode2" trigger="trigger1">
+        <alertoptions>alertoptions2</alertoptions>
+        <executefile>executefile2</executefile>
+        <arguments>arguments2</arguments>
+      </alerts>
+      <notifications sendemail="false" sendsms="false" sendtwitter="true" />
+      <alertevents>
+        <entries>
+          <entry type="type4" param1="param13" param2="param23" param3="param33" param4="param43" />
+          <entry type="type5" param1="param14" param2="param24" param3="param34" param4="param44" />
+          <entry type="type6" param1="param15" param2="param25" param3="param35" param4="param45" />
+        </entries>
+      </alertevents>
+      <schedule active="false">
+        <entries>
+          <entry start="start4" stop="stop4" daysofweek="daysofweek4" recordonstart="true" active="true" recordondetect="true" recordonalert="true" alerts="true" messaging="true" />
+          <entry start="start5" stop="stop5" daysofweek="daysofweek5" recordonstart="false" active="false" recordondetect="false" recordonalert="false" alerts="false" messaging="false" />
+          <entry start="start6" stop="stop6" daysofweek="daysofweek6" recordonstart="true" active="true" recordondetect="true" recordonalert="true" alerts="true" messaging="true" />
+        </entries>
+      </schedule>
+    </microphone>
+    <microphone id="2147483647" name="name3" description="anySimpleType" directory="anySimpleType" x="2147483647" y="2147483647" width="2147483647" height="2147483647" newrecordingcount="-2147483647" surfaceID="-2147483647">
+      <settings>
+        <sourceindex>2147483647</sourceindex>
+        <buffer>2147483647</buffer>
+        <samples>2147483647</samples>
+        <bits>2147483647</bits>
+        <channels>2147483647</channels>
+        <needsupdate>true</needsupdate>
+        <active>true</active>
+        <smsnumber>smsnumber3</smsnumber>
+        <emailaddress>emailaddress3</emailaddress>
+        <sourcename>sourcename3</sourcename>
+        <deviceout>deviceout3</deviceout>
+        <typeindex>2147483647</typeindex>
+        <volume>-2147483647</volume>
+        <gain>-3.40282347E+38</gain>
+        <messaging>false</messaging>
+        <username>username3</username>
+        <password>password3</password>
+        <ffmpeg>ffmpeg3</ffmpeg>
+        <deletewav>true</deletewav>
+        <decompress>true</decompress>
+        <notifyondisconnect>true</notifyondisconnect>
+        <emailondisconnect>emailondisconnect3</emailondisconnect>
+        <vlcargs>vlcargs3</vlcargs>
+        <reconnectinterval>2147483647</reconnectinterval>
+        <accessgroups>accessgroups2</accessgroups>
+        <timeout>-2147483647</timeout>
+        <analyzeduration>-2147483647</analyzeduration>
+        <storagemanagement>
+          <enabled>false</enabled>
+          <maxsize>2147483647</maxsize>
+          <maxage>2147483647</maxage>
+          <archive>false</archive>
+        </storagemanagement>
+        <directoryIndex>-2147483647</directoryIndex>
+      </settings>
+      <detector sensitivity="2147483647" maxsensitivity="-1.7976931348623157E+308" minsensitivity="-1.7976931348623157E+308" nosoundinterval="2147483647" soundinterval="2147483647" recordondetect="true" recordonalert="true" gain="-3.40282347E+38" />
+      <recorder inactiverecord="2147483647" minrecordtime="-2147483647" maxrecordtime="2147483647" trigger="trigger2" />
+      <alerts minimuminterval="2147483647" resetinterval="-2147483647" groupname="groupname2" active="true" mode="mode3" trigger="trigger2">
+        <alertoptions>alertoptions3</alertoptions>
+        <executefile>executefile3</executefile>
+        <arguments>arguments3</arguments>
+      </alerts>
+      <notifications sendemail="true" sendsms="true" sendtwitter="false" />
+      <alertevents>
+        <entries>
+          <entry type="type7" param1="param16" param2="param26" param3="param36" param4="param46" />
+          <entry type="type8" param1="param17" param2="param27" param3="param37" param4="param47" />
+          <entry type="type9" param1="param18" param2="param28" param3="param38" param4="param48" />
+        </entries>
+      </alertevents>
+      <schedule active="true">
+        <entries>
+          <entry start="start7" stop="stop7" daysofweek="daysofweek7" recordonstart="false" active="false" recordondetect="false" recordonalert="false" alerts="false" messaging="false" />
+          <entry start="start8" stop="stop8" daysofweek="daysofweek8" recordonstart="true" active="true" recordondetect="true" recordonalert="true" alerts="true" messaging="true" />
+          <entry start="start9" stop="stop9" daysofweek="daysofweek9" recordonstart="false" active="false" recordondetect="false" recordonalert="false" alerts="false" messaging="false" />
+        </entries>
+      </schedule>
+    </microphone>
+  </microphones>
+  <floorplans>
+    <floorplan id="1" name="name1" x="1" y="1" width="1" height="1" image="image1" accessgroups="" originalsize="false" fov="90" radius="80" needsupdate="true" surfaceID="0">
+      <objects>
+        <object>
+          <entry type="type1" id="1" x="1" y="1" angle="0" radius="0" fov="0" />
+          <entry type="type2" id="-2147483647" x="-2147483647" y="-2147483647" angle="1" radius="1" fov="1" />
+          <entry type="type3" id="2147483647" x="2147483647" y="2147483647" angle="-2147483647" radius="-2147483647" fov="-2147483647" />
+        </object>
+      </objects>
+    </floorplan>
+    <floorplan id="-2147483647" name="name2" x="-2147483647" y="-2147483647" width="-2147483647" height="-2147483647" image="image2" accessgroups="accessgroups1" originalsize="true" fov="1" radius="1" needsupdate="false" surfaceID="1">
+      <objects>
+        <object>
+          <entry type="type4" id="0" x="0" y="0" angle="2147483647" radius="2147483647" fov="2147483647" />
+          <entry type="type5" id="2" x="2" y="2" angle="0" radius="0" fov="0" />
+          <entry type="type6" id="-2147483646" x="-2147483646" y="-2147483646" angle="2" radius="2" fov="2" />
+        </object>
+      </objects>
+    </floorplan>
+    <floorplan id="2147483647" name="name3" x="2147483647" y="2147483647" width="2147483647" height="2147483647" image="image3" accessgroups="accessgroups2" originalsize="false" fov="-2147483647" radius="-2147483647" needsupdate="true" surfaceID="-2147483647">
+      <objects>
+        <object>
+          <entry type="type7" id="2147483646" x="2147483646" y="2147483646" angle="-2147483646" radius="-2147483646" fov="-2147483646" />
+          <entry type="type8" id="-1" x="-1" y="-1" angle="2147483646" radius="2147483646" fov="2147483646" />
+          <entry type="type9" id="3" x="3" y="3" angle="-1" radius="-1" fov="-1" />
+        </object>
+      </objects>
+    </floorplan>
+  </floorplans>
+  <remotecommands>
+    <command id="1" name="name1" command="command1" emitshortcut="" font="" color="" backcolor="" size="" location="" inwindow="false" />
+    <command id="-2147483647" name="name2" command="command2" emitshortcut="emitshortcut1" font="font1" color="color1" backcolor="backcolor1" size="size1" location="location1" inwindow="true" />
+    <command id="2147483647" name="name3" command="command3" emitshortcut="emitshortcut2" font="font2" color="color2" backcolor="backcolor2" size="size2" location="location2" inwindow="false" />
+  </remotecommands>
+  <actions>
+    <entries>
+      <entry type="type1" objecttypeid="1" objectid="1" mode="mode1" param1="" param2="" param3="" param4="" />
+      <entry type="type2" objecttypeid="-2147483647" objectid="-2147483647" mode="mode2" param1="param11" param2="param21" param3="param31" param4="param41" />
+      <entry type="type3" objecttypeid="2147483647" objectid="2147483647" mode="mode3" param1="param12" param2="param22" param3="param32" param4="param42" />
+    </entries>
+  </actions>
 </objects>
