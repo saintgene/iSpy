@@ -359,15 +359,8 @@ namespace iSpyApplication.Sources.Video
 
                     response = ConnectionFactory.GetResponse(_source + ((_source.IndexOf('?') == -1) ? '?' : '&') + "fake=" + rand.Next(), Cookies, Headers, HttpUserAgent, Proxy, UseHttp10, SeparateConnectionGroup, RequestTimeout, Login, Password,false, out request);
 
-                    // get response stream
-                    try
-                    {
-                        stream = response.GetResponseStream();
-                    }
-                    catch (NullReferenceException)
-                    {
-                        throw new Exception("Connection failed");
-                    }
+					// get response stream
+                    stream = response.GetResponseStream( );
                     stream.ReadTimeout = _requestTimeout;
 
 					// loop

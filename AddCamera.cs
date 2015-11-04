@@ -278,9 +278,26 @@ namespace iSpyApplication
  
             chkColourProcessing.Checked = CameraControl.Camobject.detector.colourprocessingenabled;
             numMaxFR.Value = CameraControl.Camobject.settings.maxframerate;
+            if (CameraControl.Camobject.settings.maxframerate == 0)
+            {
+                label43.Enabled = false;
+            }
+            else
+            {
+                label43.Enabled = true;
+            }
             numMaxFRRecording.Value = CameraControl.Camobject.settings.maxframeraterecord;
-            
+            if (CameraControl.Camobject.settings.maxframeraterecord == 0)
+            {
+                label47.Enabled = false;
+            }
+            else
+            {
+                label47.Enabled = true;
+            }
+
             txtDirectory.Text = CameraControl.Camobject.directory;
+            numRecCounter.Value = CameraControl.Camobject.RecCounter; //saintgene added 10/03/2015
             
             rdoContinuous.Checked = CameraControl.Camobject.alerts.processmode == "continuous";
             rdoMotion.Checked = CameraControl.Camobject.alerts.processmode == "motion";
@@ -1205,6 +1222,7 @@ namespace iSpyApplication
             }
                 
             CameraControl.Camobject.directory = txtDirectory.Text;
+            CameraControl.Camobject.RecCounter = (int)numRecCounter.Value; //saintgene added 10/03/2015
                 
 
             CameraControl.Camobject.schedule.active = chkSchedule.Checked;
@@ -2168,7 +2186,16 @@ namespace iSpyApplication
 
         private void numMaxFR_ValueChanged(object sender, EventArgs e)
         {
-            CameraControl.Camobject.settings.maxframerate = (int)numMaxFR.Value;
+            int MaxFR = (int)numMaxFR.Value;
+            CameraControl.Camobject.settings.maxframerate = MaxFR;
+            if (MaxFR == 0)
+            {
+                label43.Enabled = false;
+            }
+            else
+            {
+                label43.Enabled = true;
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -2270,8 +2297,7 @@ namespace iSpyApplication
                              TimestampForeColor = CameraControl.Camobject.settings.timestampforecolor.ToColor(),
                              TimestampBackColor = CameraControl.Camobject.settings.timestampbackcolor.ToColor(),
                              CustomFont = FontXmlConverter.ConvertToFont(CameraControl.Camobject.settings.timestampfont),
-                             TimestampShowBack = CameraControl.Camobject.settings.timestampshowback,
-                             TagsNV =  CameraControl.Camobject.settings.tagsnv
+                             TimestampShowBack = CameraControl.Camobject.settings.timestampshowback
                          };
 
             if (ct.ShowDialog(this)== DialogResult.OK)
@@ -2282,14 +2308,11 @@ namespace iSpyApplication
                 CameraControl.Camobject.settings.timestampforecolor = ct.TimestampForeColor.ToRGBString();
                 CameraControl.Camobject.settings.timestampbackcolor = ct.TimestampBackColor.ToRGBString();
                 CameraControl.Camobject.settings.timestampshowback = ct.TimestampShowBack;
-                CameraControl.Camobject.settings.tagsnv = ct.TagsNV;
-                
 
                 if (CameraControl.Camera != null)
                 {
                     CameraControl.Camera.DrawFont = null;
                     CameraControl.Camera.ForeBrush = CameraControl.Camera.BackBrush = null;
-                    CameraControl.Camera.Tags = null;
                 }
             }
             ct.Dispose();
@@ -2803,5 +2826,18 @@ namespace iSpyApplication
                 MessageBox.Show(this, LocRm.GetString("Failed"));
         }
 
+        private void numMaxFRRecording_ValueChanged(object sender, EventArgs e)
+        {
+            int MaxFR = (int)numMaxFRRecording.Value;
+            CameraControl.Camobject.settings.maxframeraterecord = MaxFR;
+            if (MaxFR == 0)
+            {
+                label47.Enabled = false;
+            }
+            else
+            {
+                label47.Enabled = true;
+            }
+        }
     }
 }

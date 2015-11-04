@@ -79,7 +79,7 @@ namespace iSpyApplication.Sources.Video
         void SourceNewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             var bm = (Bitmap)eventArgs.Frame.Clone();
-            NewFrame?.Invoke(this, new NewFrameEventArgs(bm));
+            NewFrame?.Invoke(this, new NewFrameEventArgs(bm,eventArgs.TimeStamp));
             bm.Dispose();
         }
 

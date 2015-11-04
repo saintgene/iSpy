@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.IO.Ports;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -48,11 +50,15 @@ namespace iSpyApplication
         private bool _loaded;
         public MainForm MainClass;
         public FolderSelectDialog Fsd = new FolderSelectDialog();
+        public static uint uiExtTrigSel = 0;
+        public static List<uint> uiPortsList = new List<uint>();
 
-        public Settings()
+        public Settings(MainForm mf) //saintgene changed 10/01/2015
         {
+            MainClass = mf;
             InitializeComponent();
-            RenderResources();            
+            RenderResources();
+            InitializeExTrig();            
         }
 
         private void Button1Click(object sender, EventArgs e)
@@ -132,9 +138,11 @@ namespace iSpyApplication
             MainForm.Conf.VLCFileCache = (int)numFileCache.Value;
             MainForm.Conf.Password_Protect_Startup = chkPasswordProtectOnStart.Checked;
             SaveSMTPSettings();
+            MainForm.Conf.ExtTrigFR = (int)numTrigFR.Value;
+            MainClass.ValidateExtTrigFR();
 
             MainForm.Conf.Archive = txtArchive.Text.Trim();
-            if (!string.IsNullOrEmpty(MainForm.Conf.Archive))
+            if (!String.IsNullOrEmpty(MainForm.Conf.Archive))
             {
                 if (!MainForm.Conf.Archive.EndsWith(@"\"))
                     MainForm.Conf.Archive += @"\";
@@ -246,6 +254,31 @@ namespace iSpyApplication
             DialogResult = DialogResult.OK;
             Close();
         }
+
+        void InitializeExTrig()//saintgene added 10/01/2015
+        {
+            uiExtTrigSel = Convert.ToUInt32(MainForm.Conf.SerialPort);
+            uiPortsList.Clear();
+            comPort.Items.Add("None");
+            uiPortsList.Add(0);
+            foreach (COMPortInfo comInf in COMPortInfo.GetCOMPortsInfo())
+            {
+                comPort.Items.Add(comInf.Description);
+                uiPortsList.Add(comInf.iPort);
+            }
+            if (!uiPortsList.Contains(uiExtTrigSel))
+            {
+                uiExtTrigSel = 0;
+                MainForm.Conf.SerialPort = 0;
+            }
+            comPort.SelectedIndex = uiPortsList.FindIndex(
+            delegate (uint iPort)
+            {
+                return iPort == uiExtTrigSel;
+            }
+            );
+            numTrigFR.Value = MainForm.Conf.ExtTrigFR;
+         }
 
         private jbutton _curButton;
         private jaxis _curAxis;
@@ -673,7 +706,7 @@ namespace iSpyApplication
             chkEnableLogging.Text = LocRm.GetString("Enable");
             numKeepLogs.Text = LocRm.GetString("KeepLogsForDays");
             numMaxLogSize.Text = LocRm.GetString("MaxFileSizeKB");
-            llblHelp.Visible = linkLabel1.Visible = linkLabel2.Visible = Helper.HasFeature(Enums.Features.View_Ispy_Links);
+
         }
 
 
@@ -1203,7 +1236,7 @@ namespace iSpyApplication
         private string GetFolder(string initialPath)
         {
             string f = "";
-            if (!string.IsNullOrEmpty(initialPath))
+            if (!String.IsNullOrEmpty(initialPath))
             {
                 try
                 {
@@ -1305,6 +1338,12 @@ namespace iSpyApplication
         private void mediaDirectoryEditor1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void comPort_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            uiExtTrigSel = uiPortsList[comPort.SelectedIndex];
+            MainClass.ChangeComPort(uiExtTrigSel);
         }
     }
 }

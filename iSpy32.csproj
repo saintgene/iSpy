@@ -537,18 +537,6 @@
     <Compile Include="Controls\MediaPanelControlButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\TagEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\TagEditor.Designer.cs">
-      <DependentUpon>TagEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\TagEntry.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\TagEntry.Designer.cs">
-      <DependentUpon>TagEntry.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\TextToSpeech.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -679,12 +667,6 @@
       <DependentUpon>GridViewModeConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="HttpRequest.cs" />
-    <Compile Include="Importer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Importer.Designer.cs">
-      <DependentUpon>Importer.cs</DependentUpon>
-    </Compile>
     <Compile Include="LayoutEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -873,9 +855,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="..\..\..\filediff\old\PTZController.cs">
-      <Link>PTZController.cs</Link>
-    </Compile>
+    <Compile Include="PTZController.cs" />
     <Compile Include="RestartableStream.cs" />
     <Compile Include="SerializableFont.cs" />
     <Compile Include="ShareCamera.cs">
@@ -952,12 +932,6 @@
     </Compile>
     <Compile Include="SSLConfig.Designer.cs">
       <DependentUpon>SSLConfig.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TagConfigure.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TagConfigure.Designer.cs">
-      <DependentUpon>TagConfigure.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\ConnectionFactory.cs" />
     <Compile Include="Utilities\NativeMethods.cs" />
@@ -1273,6 +1247,7 @@
     <None Include="Resources\icon_listenoff.png" />
     <None Include="Resources\icon_listenstop.png" />
     <None Include="Resources\icon_photo.png" />
+    <Content Include="Plugins\Demo.dll" />
     <None Include="Resources\ispylogo.png" />
     <None Include="Resources\ispy1.png" />
     <None Include="Resources\ipcam.png" />
@@ -1306,9 +1281,7 @@
     <None Include="Resources\icons\25 JetAudio.png" />
     <None Include="Resources\icons\26 Custom.png" />
     <None Include="Resources\icons\27 Run.png" />
-    <Content Include="Plugins\readme.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Plugins\readme.txt" />
     <None Include="Resources\icon_pointer.png" />
     <Content Include="readme.txt" />
     <Content Include="sounds\airhorn.wav">
@@ -1489,12 +1462,6 @@
     <EmbeddedResource Include="Controls\MediaPanelControl.resx">
       <DependentUpon>MediaPanelControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TagEditor.resx">
-      <DependentUpon>TagEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TagEntry.resx">
-      <DependentUpon>TagEntry.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\TextToSpeech.resx">
       <DependentUpon>TextToSpeech.cs</DependentUpon>
     </EmbeddedResource>
@@ -1515,9 +1482,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\GridViewModeConfig.resx">
       <DependentUpon>GridViewModeConfig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Importer.resx">
-      <DependentUpon>Importer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LayoutEditor.resx">
       <DependentUpon>LayoutEditor.cs</DependentUpon>
@@ -1606,9 +1570,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SSLConfig.resx">
       <DependentUpon>SSLConfig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TagConfigure.resx">
-      <DependentUpon>TagConfigure.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utilities\ScreenArea.resx">
       <DependentUpon>ScreenArea.cs</DependentUpon>

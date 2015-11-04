@@ -82,7 +82,7 @@ namespace iSpyApplication
                 if (oc != null)
                 {
                     string s = oc.command;
-                    if (!string.IsNullOrEmpty(oc.emitshortcut))
+                    if (!String.IsNullOrEmpty(oc.emitshortcut))
                     {
                         if (oc.emitshortcut != "")
                             s = oc.emitshortcut + " & " + oc.command;
@@ -98,7 +98,7 @@ namespace iSpyApplication
         {
             if (MessageBox.Show(LocRm.GetString("AreYouSure"), LocRm.GetString("Confirm"), MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
                 return;
-            MainForm.RemoteCommands = MainForm.GenerateRemoteCommands().ToList();
+            MainForm.InitRemoteCommands();
             RenderCommands();
         }
 

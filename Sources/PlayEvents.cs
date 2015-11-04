@@ -63,6 +63,13 @@ namespace iSpyApplication.Sources
         public NewFrameEventArgs(System.Drawing.Bitmap frame)
         {
             Frame = frame;
+            TimeStamp = Helper.Now;
+        }
+
+        public NewFrameEventArgs(System.Drawing.Bitmap frame, DateTime timeStamp) //saintgene added 10/08/2015
+        {
+            Frame = frame;
+            TimeStamp = timeStamp;
         }
 
         /// <summary>
@@ -70,6 +77,7 @@ namespace iSpyApplication.Sources
         /// </summary>
         /// 
         public System.Drawing.Bitmap Frame { get; }
+        public DateTime TimeStamp { get; } //saintgene added 10/08/2015
     }
 
     /// <summary>

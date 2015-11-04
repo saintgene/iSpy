@@ -1,28 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   <?include "config.wxi"?>
-  <Product Id="*" Name="iSpy (64 bit)" Language="1033" Version="!(bind.fileVersion.iSpy.exe)" Manufacturer="DeveloperInABox" UpgradeCode="70D791FD-67B0-444B-BDC1-ADF592557E88">
+  <Product Id="*" Name="iSpy (64 bit)" Language="1033" Version="6.4.2.0" Manufacturer="DeveloperInABox" UpgradeCode="70D791FD-67B0-444B-BDC1-ADF592557E88">
     <Package InstallerVersion="405" Compressed="yes" InstallScope="perMachine" Manufacturer="DeveloperInABox" Platform="x64" />
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of iSpy is already installed." AllowDowngrades="no" />
     <MediaTemplate EmbedCab="yes" />
-    
-    <Binary Id="WixCA.CA.dll" src="..\WixCA\bin\$(var.Configuration)\WixCA.CA.dll" />
-    <Property Id='CONFIGFILELOCATION' Value='[SourceDir]' />
-    <CustomAction Id="SetProperty" Execute="immediate"
-                        Property="CA_myCustomAction"
-                        Value="InstallDir=[MergeRedirectFolder];SourceDir=[CONFIGFILELOCATION]" />
-    <CustomAction Id="CA_myCustomAction"
-        BinaryKey="WixCA.CA.dll"
-        DllEntry="CopyCustomisationFiles"
-        Execute="deferred" Impersonate="no"
-        Return="check" />
 
-    <InstallExecuteSequence>
-      <Custom Action="SetProperty" After="CreateFolders">Not Installed</Custom>
-      <Custom Action="CA_myCustomAction" Before="InstallFinalize">Not Installed</Custom>
-    </InstallExecuteSequence>
-    
     <Feature Id="ProductFeature" Title="iSpy (64 bit)" Level="1">
       <ComponentGroupRef Id="ProductComponents" />
       <ComponentGroupRef Id="XML" />
@@ -313,7 +297,7 @@
         <File Id="Zlib.Portable.dll" Source="$(var.OutputDir)\Zlib.Portable.dll" KeyPath="yes" Checksum="yes" />
       </Component>
       <Component Win64="yes" Id="Monitor" Guid="{DCD36025-048D-4144-9A62-3A03413CF758}">
-        <File Id="ispymonitor" Source="D:\Projects\iSpy\iSpyMonitor\bin\Release\iSpyMonitor.exe" KeyPath="yes" Checksum="yes" />
+        <File Id="ispymonitor" Source="$(var.OutputDir)\Supporting\iSpyMonitor.exe" KeyPath="yes" Checksum="yes" />
       </Component>
     </ComponentGroup>
     <ComponentGroup Id="XML" Directory="XML">
@@ -338,7 +322,7 @@
     </ComponentGroup>
     <ComponentGroup Id="ispyserver" Directory="iSpyServer">
       <Component Win64="yes" Id="iSpyServer" Guid="{CF42C96F-478F-4DEB-BF0B-D456CA88A742}">
-        <File Id="ispyserver" Source="D:\Projects\iSpy\iSpyServerSetup\Release\iSpyServerSetup.msi" KeyPath="yes" Checksum="yes" />
+        <File Id="ispyserver" Source="$(var.OutputDir)\Supporting\iSpyServerSetup.msi" KeyPath="yes" Checksum="yes" />
       </Component>
     </ComponentGroup>
     <ComponentGroup Id="backgrounds" Directory="Backgrounds">
@@ -356,9 +340,6 @@
       </Component>
     </ComponentGroup>
     <ComponentGroup Id="plugins" Directory="Plugins">
-      <Component Win64="yes" Id="CompPluginReadme" Guid="{48eb36a2-a085-4bc3-83d6-fc29a9dd671c}">
-        <File Id="plugin_readme.txt" Source="$(var.OutputDir)\Plugins\readme.txt" KeyPath="yes" Checksum="yes" />
-      </Component>
     </ComponentGroup>
     <ComponentGroup Id="sounds" Directory="Sounds">
       <Component Win64="yes" Id="Component111" Guid="{98513797-E5E0-4F23-9C32-D42A56225BEF}">

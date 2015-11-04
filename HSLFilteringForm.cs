@@ -129,7 +129,7 @@ namespace iSpyApplication
             //
             InitializeComponent();
 
-            if (!string.IsNullOrEmpty(Config))
+            if (!String.IsNullOrEmpty(Config))
             {
                 string[] config = Config.Split(Config.IndexOf("|", StringComparison.Ordinal)!=-1 ? '|' : ',');
 

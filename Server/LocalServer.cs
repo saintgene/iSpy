@@ -133,7 +133,7 @@ namespace iSpyApplication.Server
 
         public string StartServer()
         {
-            if (!string.IsNullOrEmpty(MainForm.Conf.SSLCertificate))
+            if (!String.IsNullOrEmpty(MainForm.Conf.SSLCertificate))
                 X509.LoadCertificate(MainForm.Conf.SSLCertificate);
 
             string message = "";
@@ -1070,7 +1070,7 @@ namespace iSpyApplication.Server
             if (AllowedReferers.Count>2)
             {
                 string referer = GetFromBuffer(sBuffer,"Referer");
-                if (!string.IsNullOrEmpty(referer))
+                if (!String.IsNullOrEmpty(referer))
                 {
                     bHasReferer = AllowedReferers.Any(r => Regex.IsMatch(referer, r));
                     //check referrer (if not empty)
@@ -1164,7 +1164,7 @@ namespace iSpyApplication.Server
 
         private bool CheckAccess(string group, string groups)
         {
-            if (!string.IsNullOrEmpty(groups))
+            if (!String.IsNullOrEmpty(groups))
             {
                 var g = groups.ToLower().Split(',');
                 if (g.Contains(group.ToLower()))
@@ -1177,7 +1177,7 @@ namespace iSpyApplication.Server
         
         internal string ProcessCommandInternal(string sRequest)
         {
-            string cmd = Uri.UnescapeDataString(sRequest.Trim('/').ToLower().Trim());
+            string cmd = Uri.UnescapeDataString(sRequest.Trim('/').ToLower().Trim());//saintgene mark
             string resp = "";
             
             //hack for axis server commands
@@ -1199,7 +1199,7 @@ namespace iSpyApplication.Server
             string func = GetVar(sRequest, "jsfunc").Replace("%27","'");
             string fn = GetVar(sRequest, "fn");          
 
-            if (!string.IsNullOrEmpty(group))
+            if (!String.IsNullOrEmpty(group))
             {
                 resp = MainForm.Cameras.Where(cam => CheckAccess(@group, cam.settings.accessgroups)).Aggregate(resp, (current, cam) => DoCommand(sRequest, 2, current, cmd, cam.id, fn, ref func));
                 resp = MainForm.Microphones.Where(mic => CheckAccess(@group, mic.settings.accessgroups)).Aggregate(resp, (current, mic) => DoCommand(sRequest, 1, current, cmd, mic.id, fn, ref func));
@@ -1274,7 +1274,7 @@ namespace iSpyApplication.Server
                     }
                     if (otid == 0)
                     {
-                        _parent.RecordAll(true);
+                        _parent.RecordAll(true);//saintgene mark
                     }
                     break;
                 case "alert":
@@ -1327,7 +1327,17 @@ namespace iSpyApplication.Server
                     }
                     if (otid == 0)
                     {
-                        _parent.RecordAll(false);
+                        _parent.RecordAll(false);//saintgene mark
+                    }
+                    break;
+                case "testexttrig":
+                    {
+                        _parent.ComTrigExt(true);
+                    }
+                    break;
+                case "stopexttrig":
+                    {
+                        _parent.ComTrigExt(false);
                     }
                     break;
                 case "snapshot":
@@ -1554,8 +1564,8 @@ namespace iSpyApplication.Server
                     if (cw?.Camera != null)
                     {
                         int fr = Convert.ToInt32(GetVar(sRequest, "rate"));
-                        if (fr < 1) fr = 1;
-                        cw.Camobject.settings.maxframerate = fr;
+                        if (fr < 0) fr = 0;// saintgene changed 10/08/2015
+                            cw.Camobject.settings.maxframerate = fr;
                     }
                     resp = "OK";
                 }
@@ -1566,7 +1576,7 @@ namespace iSpyApplication.Server
                     if (cw?.Camera != null)
                     {
                         int fr = Convert.ToInt32(GetVar(sRequest, "rate"));
-                        if (fr < 1) fr = 1;
+                        if (fr < 0) fr = 0;// saintgene changed 10/08/2015
                         cw.Camobject.settings.maxframeraterecord = fr;
                     }
                     resp = "OK";
@@ -1930,12 +1940,12 @@ namespace iSpyApplication.Server
                             case "maxframerate":
                                 int mfr;
                                 int.TryParse(value, out mfr);
-                                cw.Camobject.settings.maxframerate = Math.Max(mfr, 1);
+                                cw.Camobject.settings.maxframerate = Math.Max(mfr, 0);// saintgene changed 10/08/2015
                                 break;
                             case "maxframeraterecord":
                                 int mfrr;
                                 int.TryParse(value, out mfrr);
-                                cw.Camobject.settings.maxframeraterecord = Math.Max(mfrr, 1);
+                                cw.Camobject.settings.maxframeraterecord = Math.Max(mfrr, 0);// saintgene changed 10/08/2015
                                 break;                                    
                             case "localsaving":
                                 cw.Camobject.ftp.savelocal = Convert.ToBoolean(value);
@@ -3599,7 +3609,7 @@ namespace iSpyApplication.Server
                 {
                     if (useDefault)
                     {
-                        if (cameraids != MainForm.Conf.DeviceDriverDefault && !string.IsNullOrEmpty(MainForm.Conf.DeviceDriverDefault))
+                        if (cameraids != MainForm.Conf.DeviceDriverDefault && !String.IsNullOrEmpty(MainForm.Conf.DeviceDriverDefault))
                         {
                             cams = GetCameraWindows(MainForm.Conf.DeviceDriverDefault, ref w, ref h);
 
@@ -3750,7 +3760,7 @@ namespace iSpyApplication.Server
             }
             foreach (string c in camids)
             {
-                if (!string.IsNullOrEmpty(c))
+                if (!String.IsNullOrEmpty(c))
                 {
                     var cw = _parent.GetCameraWindow(Convert.ToInt32(c));
                     if (cw != null)

@@ -143,8 +143,9 @@
         <xs:element name="VLCFileCache" type="xs:int" default="3000"/>
         <xs:element name="Referers" type="xs:string" default=""/>
         <xs:element name="EncryptCode" type="xs:string" default=""/>
-        <xs:element name="Tags" type="xs:string" default=""/>
         <xs:element name="PortMapperMode" type="xs:int" default="2"/>
+        <xs:element name="SerialPort" type="xs:int" default="0"/><!--saintgene added 10/01/2015-->
+        <xs:element name="ExtTrigFR" type="xs:int" default="30"/><!--saintgene added 10/06/2015-->
         <xsd:element name="Logging">
           <xsd:complexType>
             <xsd:attribute name="FileSize" type="xsd:int" default="100" />

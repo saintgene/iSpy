@@ -33,7 +33,7 @@ namespace iSpyApplication.Controls
         {
             txtServerName.Text = FTP.name;
             txtFTPServer.Text = FTP.server;
-            if (string.IsNullOrEmpty(txtFTPServer.Text))
+            if (String.IsNullOrEmpty(txtFTPServer.Text))
                 txtFTPServer.Text = "ftp://";
             txtFTPUsername.Text = FTP.username;
             txtFTPPassword.Text = FTP.password;
@@ -41,7 +41,7 @@ namespace iSpyApplication.Controls
             chkFTPRename.Checked = FTP.rename;
             chkUsePassive.Checked = FTP.usepassive;
             chkSFTP.Checked = FTP.sftp;
-            if (string.IsNullOrEmpty(FTP.ident))
+            if (String.IsNullOrEmpty(FTP.ident))
                 FTP.ident = Guid.NewGuid().ToString();
         }
 

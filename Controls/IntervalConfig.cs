@@ -63,7 +63,7 @@ namespace iSpyApplication.Controls
                 di = VL.Micobject.alerts.minimuminterval;
             }
 
-            if (!string.IsNullOrEmpty(gn))
+            if (!String.IsNullOrEmpty(gn))
             {
                 if (ri > 0)
                 {

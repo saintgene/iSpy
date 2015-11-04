@@ -416,19 +416,28 @@ namespace iSpyApplication.Controls
         }
 
 
-        private double Mininterval => 1000d/MaxFramerate;
+        private double _Mininterval => 1000d/MaxFramerate; //saintgene modified 10/07/2015
 
-        private double MaxFramerate
+        public double Mininterval //saintgene added 10/07/2015
         {
             get
             {
-                var ret = CW.Camobject.settings.maxframerate;
-                if (CW.Recording && CW.Camobject.recorder.profile < 3) //use variable rate for mp4 only
+                return _Mininterval;
+            }
+        }
+
+        private int MaxFramerate
+        {
+            get
+            {
+                int ret = CW.Camobject.settings.maxframerate;
+                if (CW.Recording) // && CW.Camobject.recorder.profile < 3) //use variable rate for mp4 only //saintgene changed 10/08/2015
                     ret = CW.Camobject.settings.maxframeraterecord;
 
 
                 if (MainForm.ThrottleFramerate < ret)
                     ret = MainForm.ThrottleFramerate;
+
                 return ret;
             }
         }
@@ -451,14 +460,15 @@ namespace iSpyApplication.Controls
             
             if (_lastframeEvent > DateTime.MinValue)
             {
-                if ((Helper.Now<_nextFrameTarget))
+                bool bClampFR = !double.IsPositiveInfinity(Mininterval);//saintgene added 10/08/2015
+                if (bClampFR &&(e.TimeStamp < _nextFrameTarget))
                 {
                     return;
                 }
-                CalculateFramerates();
+                CalculateFramerates(e,bClampFR);//saintgene marked
             }
             
-            _lastframeEvent = Helper.Now;           
+            _lastframeEvent = e.TimeStamp;          
             
             Bitmap bmOrig = null;
             bool bMotion = false;
@@ -572,7 +582,7 @@ namespace iSpyApplication.Controls
 
             if (!_requestedToStop)
             {
-                nf.Invoke(this, new NewFrameEventArgs(bmOrig));
+                nf.Invoke(this, new NewFrameEventArgs(bmOrig,e.TimeStamp));//saintgene changed 10/08/2015
             }
             if (bMotion)
             {
@@ -668,38 +678,10 @@ namespace iSpyApplication.Controls
             public Rectangle R;
         }
 
-        private string NV(string name)
-        {
-            if (string.IsNullOrEmpty(CW.Camobject.settings.tagsnv))
-                return "";
-            name = name.ToLower().Trim();
-            string[] settings = CW.Camobject.settings.tagsnv.Split(',');
-            foreach (string[] nv in settings.Select(s => s.Split('=')).Where(nv => nv[0].ToLower().Trim() == name))
-            {
-                return nv[1];
-            }
-            return "";
-        }
-
-        private Dictionary<string, string> _tags; 
-        internal Dictionary<string, string> Tags
-        {
-            get
-            {
-                if (_tags == null)
-                {
-                    _tags = Helper.GetDictionary(this.CW.Camobject.settings.tagsnv,';');
-
-                }
-                return _tags;
-            }
-            set { _tags = value; }
-        }
-
         private void AddTimestamp(Bitmap bmp)
         {
             if (CW.Camobject.settings.timestamplocation != 0 &&
-                !string.IsNullOrEmpty(CW.Camobject.settings.timestampformatter))
+                !String.IsNullOrEmpty(CW.Camobject.settings.timestampformatter))
             {
                 using (Graphics gCam = Graphics.FromImage(bmp))
                 {
@@ -710,18 +692,6 @@ namespace iSpyApplication.Controls
                     ts = ts.Replace("{REC}", CW.Recording ? "REC" : "");
                     var c = CW.Camera;
                     ts = ts.Replace("{LEVEL}", c?.MotionLevel.ToString("0.##") ?? "");
-
-                    if (MainForm.Tags.Count > 0)
-                    {
-                        var l = MainForm.Tags.ToList();
-                        foreach (var t in l)
-                        {
-                            string sval="";
-                            if (Tags.ContainsKey(t))
-                                sval = Tags[t];
-                            ts = ts.Replace(t, sval);
-                        }
-                    }
 
                     var timestamp = "Invalid Timestamp";
                     try
@@ -903,22 +873,42 @@ namespace iSpyApplication.Controls
             return f;                    
         }
 
-        private void CalculateFramerates()
-        {
-            double dMin = Mininterval;
-            _nextFrameTarget = _nextFrameTarget.AddMilliseconds(dMin);
-            var d = Helper.Now;
-            if (_nextFrameTarget < d)
-                _nextFrameTarget = d.AddMilliseconds(dMin);
+        //private void CalculateFramerates()
+        //{
+        //    double dMin = Mininterval;
+        //    _nextFrameTarget = _nextFrameTarget.AddMilliseconds(dMin);
+        //    var d = Helper.Now;
+        //    if (_nextFrameTarget < d)
+        //        _nextFrameTarget = d.AddMilliseconds(dMin);
 
+
+        //    TimeSpan tsFr = d - _lastframeEvent;
+        //    _framerates.Enqueue(1000d/tsFr.TotalMilliseconds);
+        //    if (_framerates.Count >= 30)
+        //        _framerates.Dequeue();
+        //    Framerate = _framerates.Average();
+        //}
+
+        //---------------------------------------------------------------------------------------------------------//saintgene added 10/08/2015
+        private void CalculateFramerates(NewFrameEventArgs e,bool bClampFR)
+        {
+            var d = e.TimeStamp;
+
+            if (bClampFR)
+            {
+                double dMin = Mininterval;
+                _nextFrameTarget = _nextFrameTarget.AddMilliseconds(dMin);
+                if (_nextFrameTarget < d)
+                    _nextFrameTarget = d.AddMilliseconds(dMin);
+            }
 
             TimeSpan tsFr = d - _lastframeEvent;
-            _framerates.Enqueue(1000d/tsFr.TotalMilliseconds);
+            _framerates.Enqueue(1000d / tsFr.TotalMilliseconds);
             if (_framerates.Count >= 30)
                 _framerates.Dequeue();
             Framerate = _framerates.Average();
         }
-
+        //---------------------------------------------------------------------------------------------------------//
         private void ApplyMask(Bitmap bmOrig)
         {
             Graphics g = Graphics.FromImage(bmOrig);

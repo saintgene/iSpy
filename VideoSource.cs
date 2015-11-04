@@ -260,7 +260,7 @@ namespace iSpyApplication
                     break;
             }
 
-            if (!string.IsNullOrEmpty(CameraControl.Camobject.decodekey))
+            if (!String.IsNullOrEmpty(CameraControl.Camobject.decodekey))
                 txtDecodeKey.Text = CameraControl.Camobject.decodekey;
 
             chkMousePointer.Checked = CameraControl.Camobject.settings.desktopmouse;
@@ -423,7 +423,7 @@ namespace iSpyApplication
             foreach(var dev in MainForm.ONVIFDevices)
             {
                 string n = dev.Name;
-                if (!string.IsNullOrEmpty(dev.Location))
+                if (!String.IsNullOrEmpty(dev.Location))
                     n += " (" + dev.Location + ")";
                 lbONVIFDevices.Items.Add(new MainForm.ListItem2(n,j));
                 j++;
@@ -488,7 +488,7 @@ namespace iSpyApplication
         
         private string NV(string name)
         {
-            if (string.IsNullOrEmpty(CameraControl.Camobject.settings.namevaluesettings))
+            if (String.IsNullOrEmpty(CameraControl.Camobject.settings.namevaluesettings))
                 return "";
             name = name.ToLower().Trim();
             string[] settings = CameraControl.Camobject.settings.namevaluesettings.Split(',');
@@ -620,7 +620,7 @@ namespace iSpyApplication
                         return;
                     }
                     url = cmbJPEGURL.Text.Trim();
-                    if (string.IsNullOrEmpty(url))
+                    if (String.IsNullOrEmpty(url))
                     {
                         MessageBox.Show(LocRm.GetString("Validate_SelectCamera"), LocRm.GetString("Note"));
                         return;
@@ -631,7 +631,7 @@ namespace iSpyApplication
                     break;
                 case 1:
                     url = cmbMJPEGURL.Text.Trim();
-                    if (string.IsNullOrEmpty(url))
+                    if (String.IsNullOrEmpty(url))
                     {
                         MessageBox.Show(LocRm.GetString("Validate_SelectCamera"), LocRm.GetString("Note"));
                         return;
@@ -643,7 +643,7 @@ namespace iSpyApplication
                     break;
                 case 2:
                     url = cmbFile.Text.Trim();
-                    if (string.IsNullOrEmpty(url))
+                    if (String.IsNullOrEmpty(url))
                     {
                         MessageBox.Show(LocRm.GetString("Validate_SelectCamera"), LocRm.GetString("Note"));
                         return;
@@ -780,7 +780,7 @@ namespace iSpyApplication
                     {
                         var uri = new Uri(VideoSourceString);
 
-                        if (!string.IsNullOrEmpty(uri.DnsSafeHost))
+                        if (!String.IsNullOrEmpty(uri.DnsSafeHost))
                         {
                             CameraControl.Camobject.settings.audioip = uri.DnsSafeHost;
                             CameraControl.Camobject.settings.audioport = uri.Port;
@@ -872,7 +872,7 @@ namespace iSpyApplication
             FriendlyName = t;
             
 
-            if (string.IsNullOrEmpty(VideoSourceString))
+            if (String.IsNullOrEmpty(VideoSourceString))
             {
                 MessageBox.Show(LocRm.GetString("Validate_SelectCamera"), LocRm.GetString("Note"));
                 return;
@@ -1285,9 +1285,9 @@ namespace iSpyApplication
 
         private void Wizard()
         {
-            using (var fc = new FindCameras())
+            var fc = new FindCameras();
+            if (fc.ShowDialog(this) == DialogResult.OK)
             {
-                if (fc.ShowDialog(this) != DialogResult.OK) return;
                 SetSourceIndex(fc.VideoSourceType);
 
                 switch (fc.VideoSourceType)
@@ -1312,13 +1312,13 @@ namespace iSpyApplication
                         break;
                 }
 
-                if (!string.IsNullOrEmpty(fc.Flags))
+                if (!String.IsNullOrEmpty(fc.Flags))
                 {
                     string[] flags = fc.Flags.Split(',');
-                    foreach (string f in flags)
+                    foreach(string f in flags)
                     {
                         if (string.IsNullOrEmpty(f)) continue;
-                        switch (f.ToUpper())
+                        switch(f.ToUpper())
                         {
                             case "FBA":
                                 CameraControl.Camobject.settings.forcebasic = true;
@@ -1326,7 +1326,7 @@ namespace iSpyApplication
                         }
                     }
                 }
-                if (fc.Ptzid > -1)
+                if (fc.Ptzid>-1)
                 {
                     CameraControl.Camobject.ptz = fc.Ptzid;
                     CameraControl.Camobject.ptzentryindex = fc.Ptzentryid;
@@ -1337,10 +1337,10 @@ namespace iSpyApplication
                     CameraControl.Camobject.settings.ptzurlbase = MainForm.PTZs.Single(p => p.id == fc.Ptzid).CommandURL;
                 }
 
-                if (!string.IsNullOrEmpty(fc.AudioModel))
+                if (!String.IsNullOrEmpty(fc.AudioModel))
                 {
                     var uri = new Uri(fc.FinalUrl);
-                    if (!string.IsNullOrEmpty(uri.DnsSafeHost))
+                    if (!String.IsNullOrEmpty(uri.DnsSafeHost))
                     {
                         CameraControl.Camobject.settings.audioip = uri.DnsSafeHost;
                     }
@@ -1353,13 +1353,12 @@ namespace iSpyApplication
 
                 CameraControl.Camobject.name = FriendlyName;
 
-                if (fc.AudioSourceType > -1)
+                if (fc.AudioSourceType>-1)
                 {
                     var vc = CameraControl.VolumeControl;
                     if (vc == null)
                     {
-                        vc = MainForm.InstanceReference.AddCameraMicrophone(CameraControl.Camobject.id,
-                            CameraControl.Camobject.name + " mic");
+                        vc = MainForm.InstanceReference.AddCameraMicrophone(CameraControl.Camobject.id, CameraControl.Camobject.name + " mic");
                         CameraControl.Camobject.settings.micpair = vc.Micobject.id;
                         vc.Micobject.alerts.active = false;
                         vc.Micobject.detector.recordonalert = false;
@@ -1373,6 +1372,7 @@ namespace iSpyApplication
                 }
                 FriendlyName = CameraControl.Camobject.name;
             }
+            fc.Dispose();
         }
 
         private void devicesCombo_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -1459,7 +1459,7 @@ namespace iSpyApplication
 
                         if (!snapshotResolutionsCombo.Items.Contains(item))
                         {
-                            if (string.IsNullOrEmpty(precfg) && _snapshotSize == capabilty.FrameSize)
+                            if (String.IsNullOrEmpty(precfg) && _snapshotSize == capabilty.FrameSize)
                             {
                                 snapshotResolutionIndex = snapshotResolutionsCombo.Items.Count;
                             }

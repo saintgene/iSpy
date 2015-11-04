@@ -259,7 +259,7 @@ namespace iSpyApplication.Sources.Audio.streams
             try
             {
                 var p = Path.GetFullPath(_mMedia.Input);
-                Seekable = !string.IsNullOrEmpty(p);
+                Seekable = !String.IsNullOrEmpty(p);
             }
             catch (Exception)
             {

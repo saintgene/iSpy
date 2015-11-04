@@ -38,14 +38,14 @@ namespace iSpyApplication.Controls
         private void Say()
         {
             var t = ddlSay.Text;
-            if (!string.IsNullOrEmpty(t))
+            if (!String.IsNullOrEmpty(t))
             {
                 SpeechSynth.Say(t, CW);
                 CW.LogToPlugin("Text: " + t);
                 var p = new List<string> { t };
                 foreach (var i in ddlSay.Items)
                 {
-                    if (!p.Contains(i) && !string.IsNullOrEmpty(i.ToString()))
+                    if (!p.Contains(i) && !String.IsNullOrEmpty(i.ToString()))
                         p.Add(i.ToString());
                 }
 
@@ -73,7 +73,7 @@ namespace iSpyApplication.Controls
             var s = MainForm.Conf.TextSentences.Split('|');
             foreach (var t in s)
             {
-                if (!string.IsNullOrEmpty(t))
+                if (!String.IsNullOrEmpty(t))
                     ddlSay.Items.Add(t);
             }
         }

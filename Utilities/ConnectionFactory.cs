@@ -255,7 +255,7 @@ namespace iSpyApplication.Utilities
             request.SendChunked = false;
 
             // set login and password
-            if (!string.IsNullOrEmpty(username))
+            if (!String.IsNullOrEmpty(username))
                 request.Credentials = new NetworkCredential(username, password);
             // set connection group name
             if (useSeparateConnectionGroup)
@@ -279,7 +279,7 @@ namespace iSpyApplication.Utilities
                 string[] coll = cookies.Split(';');
                 foreach (var ckie in coll)
                 {
-                    if (!string.IsNullOrEmpty(ckie))
+                    if (!String.IsNullOrEmpty(ckie))
                     {
                         string[] nv = ckie.Split('=');
                         if (nv.Length == 2)
@@ -292,13 +292,13 @@ namespace iSpyApplication.Utilities
                 request.CookieContainer = myContainer;
             }
 
-            if (!string.IsNullOrEmpty(headers))
+            if (!String.IsNullOrEmpty(headers))
             {
                 headers = headers.Replace("[AUTH]", authInfo);
                 string[] coll = headers.Split(';');
                 foreach (var hdr in coll)
                 {
-                    if (!string.IsNullOrEmpty(hdr))
+                    if (!String.IsNullOrEmpty(hdr))
                     {
                         string[] nv = hdr.Split('=');
                         if (nv.Length == 2)

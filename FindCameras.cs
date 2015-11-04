@@ -518,7 +518,7 @@ namespace iSpyApplication
                 var l = m.url.OrderBy(p => p.version).ToList();
                 foreach (var u in l)
                 {
-                    if (!string.IsNullOrEmpty(u.version) &&
+                    if (!String.IsNullOrEmpty(u.version) &&
                         added.IndexOf("," + u.version.ToUpper() + ",", StringComparison.Ordinal) == -1)
                     {
                         ddlModel.Items.Add(u.version);
@@ -797,7 +797,7 @@ namespace iSpyApplication
         private void AddCamera(string addr, ManufacturersManufacturer m,  ManufacturersManufacturerUrl u)
         {
             string st = m.name+":";
-            if (!string.IsNullOrEmpty(u.version))
+            if (!String.IsNullOrEmpty(u.version))
                 st += u.version;
             else
                 st += "Other";
@@ -852,7 +852,7 @@ namespace iSpyApplication
                               "User-Agent: iSpy\r\n" +
                               "Accept: */*\r\n";
 
-                if (!string.IsNullOrEmpty(login))
+                if (!String.IsNullOrEmpty(login))
                 {
                     var authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(login + ":" + password));
                     request +="Authorization: Basic " + authInfo+"\r\n";
@@ -903,7 +903,7 @@ namespace iSpyApplication
             if (model!="" && model.ToUpper()!="OTHER")
             {
                 string mdl = model.ToUpper();
-                cand = cand.Where(p => string.IsNullOrEmpty(p.version) || p.version.ToUpper() == mdl).ToList();
+                cand = cand.Where(p => String.IsNullOrEmpty(p.version) || p.version.ToUpper() == mdl).ToList();
             }
             cand = cand.OrderBy(p => p.Source).ToList();
 
@@ -1026,7 +1026,7 @@ namespace iSpyApplication
             if (pnlFindNetwork.Visible)
             {
                 string addr = txtIPAddress.Text.Trim();
-                if (string.IsNullOrEmpty(addr))
+                if (String.IsNullOrEmpty(addr))
                 {
                     MessageBox.Show(this, LocRm.GetString("EnterIPAddress"));
                     return;
@@ -1100,7 +1100,7 @@ namespace iSpyApplication
                         break;
                 }
                 AudioSourceType = -1;
-                if (!string.IsNullOrEmpty(s.AudioSource))
+                if (!String.IsNullOrEmpty(s.AudioSource))
                 {
                     switch (s.AudioSource.ToUpper())
                     {
@@ -1171,7 +1171,7 @@ namespace iSpyApplication
                 LastConfig.URL = s.url;
                 LastConfig.Cookies = s.cookies;
                 LastConfig.Flags = s.flags;
-                if (!string.IsNullOrEmpty(s.port))
+                if (!String.IsNullOrEmpty(s.port))
                     LastConfig.Port = Convert.ToInt32(s.port);
 
                 if (_dt != null)
@@ -1209,16 +1209,16 @@ namespace iSpyApplication
 
             var nPort = (int)numPort.Value;
 
-            if (!string.IsNullOrEmpty(s.port))
+            if (!String.IsNullOrEmpty(s.port))
                 nPort = Convert.ToInt32(s.port);
             
             string connectUrl = s.prefix;
 
-            if (!string.IsNullOrEmpty(Username))
+            if (!String.IsNullOrEmpty(Username))
             {
                 connectUrl += Uri.EscapeDataString(Username);
 
-                if (!string.IsNullOrEmpty(Password))
+                if (!String.IsNullOrEmpty(Password))
                     connectUrl += ":" + Uri.EscapeDataString(Password);
                 connectUrl += "@";
                      

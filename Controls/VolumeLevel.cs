@@ -513,10 +513,7 @@ namespace iSpyApplication.Controls
                                 }
                                 break;
                             case 2:
-                                if (Helper.HasFeature(Enums.Features.Edit))
-                                {
-                                    MainClass.EditMicrophone(Micobject);
-                                }
+                                MainClass.EditMicrophone(Micobject);
                                 break;
                             case 3:
                                 if (Helper.HasFeature(Enums.Features.Access_Media))
@@ -1019,7 +1016,7 @@ namespace iSpyApplication.Controls
                     }
                     break;
                 case 2://settings
-                    rSrc = Helper.HasFeature(Enums.Features.Edit) ? MainForm.REdit : MainForm.REditOff;
+                    rSrc = MainForm.REdit;
                     break;
                 case 3://web
                     rSrc = Helper.HasFeature(Enums.Features.Access_Media) ? MainForm.RWeb : MainForm.RWebOff;
@@ -1471,7 +1468,7 @@ namespace iSpyApplication.Controls
                                    {
                                        Name = "Recording Thread (" + Micobject.id + ")",
                                        IsBackground = true,
-                                       Priority = ThreadPriority.Normal
+                                       Priority = ThreadPriority.Highest //saintgene changed 10/06/2015
                                    };
                 _recordingThread.Start();
             }
@@ -1483,7 +1480,7 @@ namespace iSpyApplication.Controls
             {
                 _stopWrite.Reset();
 
-                if (!string.IsNullOrEmpty(Micobject.recorder.trigger))
+                if (!String.IsNullOrEmpty(Micobject.recorder.trigger))
                 {
                     string[] tid = Micobject.recorder.trigger.Split(',');
                     switch (tid[0])
@@ -1683,7 +1680,7 @@ namespace iSpyApplication.Controls
                     ErrorHandler?.Invoke(ex.Message);
                 }
 
-                if (!string.IsNullOrEmpty(Micobject.recorder.trigger))
+                if (!String.IsNullOrEmpty(Micobject.recorder.trigger))
                 {
                     string[] tid = Micobject.recorder.trigger.Split(',');
                     switch (tid[0])
@@ -2009,7 +2006,7 @@ namespace iSpyApplication.Controls
 
                 if (AudioSource != null)
                 {
-                    WaveOut = !string.IsNullOrEmpty(Micobject.settings.deviceout)
+                    WaveOut = !String.IsNullOrEmpty(Micobject.settings.deviceout)
                         ? new DirectSoundOut(new Guid(Micobject.settings.deviceout), 100)
                         : new DirectSoundOut(100);
 
@@ -2720,6 +2717,7 @@ namespace iSpyApplication.Controls
                 }
                 ForcedRecording = true;
                 _requestRefresh = true;
+                ClearBuffer(); //saintgene added 10/06/2015
                 return "recording," + LocRm.GetString("RecordingStarted");
             }
 

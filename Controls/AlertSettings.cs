@@ -59,7 +59,7 @@ namespace iSpyApplication.Controls
             foreach (var cam in MainForm.Cameras)
             {
                 string gn = cam.alerts.groupname.Trim().ToLower();
-                if (!string.IsNullOrEmpty(gn))
+                if (!String.IsNullOrEmpty(gn))
                 {
                     if (!cmbGroup.Items.Contains(gn))
                         cmbGroup.Items.Add(gn);
@@ -69,7 +69,7 @@ namespace iSpyApplication.Controls
             foreach (var mic in MainForm.Microphones)
             {
                 string gn = mic.alerts.groupname.Trim().ToLower();
-                if (!string.IsNullOrEmpty(gn))
+                if (!String.IsNullOrEmpty(gn))
                 {
                     if (!cmbGroup.Items.Contains(gn))
                         cmbGroup.Items.Add(gn);

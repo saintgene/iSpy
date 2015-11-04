@@ -533,7 +533,12 @@ namespace iSpyApplication.Sources.Video
                 lock ( _sync )
                 {
                     // create and start new thread
-                    _thread = new Thread( WorkerThread ) {Name = _deviceMoniker, IsBackground = true};
+                    _thread = new Thread( WorkerThread )
+                                        {
+                                          Name = _deviceMoniker,
+                                          IsBackground = true,
+                                          Priority = ThreadPriority.Highest //saintgene added 10/07/2015
+                                        };
                     _thread.TrySetApartmentState(ApartmentState.STA);
                     _thread.Start( );
                 }
@@ -1742,8 +1747,7 @@ namespace iSpyApplication.Sources.Video
            
             var dae = new NewFrameEventArgs(bmp);
             nf.Invoke(this, dae);
-            bmp.Dispose();       
-           
+            bmp.Dispose();            
             
         }
 
@@ -1832,7 +1836,7 @@ namespace iSpyApplication.Sources.Video
                     }
                     else
                     {
-                        _parent.OnNewFrame( image );
+                        _parent.OnNewFrame( image );//saintgene marked
                     }
 
                     // release the image

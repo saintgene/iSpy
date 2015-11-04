@@ -9,7 +9,6 @@ using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
-using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Media;
 using System.Net;
@@ -47,6 +46,7 @@ namespace iSpyApplication.Controls
         private Color _customColor = Color.Black;
         private DateTime _lastRedraw = DateTime.MinValue;
         private DateTime _recordingStartTime;
+        private DateTime _recordingStopTime = DateTime.MaxValue;
         private readonly ManualResetEvent _stopWrite = new ManualResetEvent(false);
         private double _autoofftimer;
         private bool _raiseStop;
@@ -777,7 +777,7 @@ namespace iSpyApplication.Controls
                 case MouseButtons.Middle:
                     PTZNavigate = false;
                     PTZSettings2Camera ptz = MainForm.PTZs.SingleOrDefault(p => p.id == Camobject.ptz);
-                    if (!string.IsNullOrEmpty(ptz?.Commands.Stop))
+                    if (!String.IsNullOrEmpty(ptz?.Commands.Stop))
                         PTZ.SendPTZCommand(ptz.Commands.Stop, true);
 
                     if (PTZ.IsContinuous)
@@ -835,10 +835,7 @@ namespace iSpyApplication.Controls
                                         }
                                         break;
                                     case 2:
-                                        if (Helper.HasFeature(Enums.Features.Edit))
-                                        {
-                                            MainClass.EditCamera(Camobject);
-                                        }
+                                        MainClass.EditCamera(Camobject);
                                         break;
                                     case 3:
                                         if (Helper.HasFeature(Enums.Features.Access_Media))
@@ -912,8 +909,7 @@ namespace iSpyApplication.Controls
                 if (!InvokeRequired)
                 {
                     MessageBox.Show(obj, LocRm.GetString("ConfigureTalk"));
-                    if (Helper.HasFeature(Enums.Features.Edit))
-                        MainClass.EditCamera(Camobject, f);
+                    MainClass.EditCamera(Camobject, f);
                 }
             }
             else
@@ -935,8 +931,7 @@ namespace iSpyApplication.Controls
                 if (Camobject.settings.audiomodel == "None")
                 {
                     MessageBox.Show(obj, LocRm.GetString("ConfigureTalk"));
-                    if (Helper.HasFeature(Enums.Features.Edit))
-                        MainClass.EditCamera(Camobject, f);
+                    MainClass.EditCamera(Camobject, f);
                 }
                 else
                 {
@@ -1536,7 +1531,7 @@ namespace iSpyApplication.Controls
                     LastAutoTrackSent = DateTime.MinValue;
                     Calibrating = true;
                     _calibrateTarget = Camobject.settings.ptztimetohome;
-                    if (string.IsNullOrEmpty(Camobject.settings.ptzautohomecommand) ||
+                    if (String.IsNullOrEmpty(Camobject.settings.ptzautohomecommand) ||
                         Camobject.settings.ptzautohomecommand == "Center")
                         PTZ.SendPTZCommand(Enums.PtzCommand.Center);
                     else
@@ -2418,11 +2413,15 @@ namespace iSpyApplication.Controls
                 }
 
                 string flags = "";
+                string rec_dur = "";
                 if (Camobject.alerts.active)
                     flags += "!";
 
                 if (ForcedRecording)
+                {
                     flags += "F";
+                    rec_dur += (Helper.Now - _recordingStartTime).ToString(@"hh\:mm\:ss"); //saintgene added 10/07/2015
+                }
                 else
                 {
                     if (Camobject.detector.recordondetect)
@@ -2440,9 +2439,10 @@ namespace iSpyApplication.Controls
                 if (Camobject.schedule.active)
                     flags += "S";
 
-                if (flags!="")
-                    m = flags +"  "+ m;
-
+                if (flags != "")
+                    m = flags + "  " + m; // + "  BufSz: " + Buffer.Count.ToString() + "  ";
+                if (rec_dur != "")
+                    m += "  Rec: "+rec_dur+"  " ;
 
                 gCam.DrawString(m + txt,MainForm.Drawfont, MainForm.CameraDrawBrush, new PointF(5, textpos));
 
@@ -2529,7 +2529,7 @@ namespace iSpyApplication.Controls
                     }
                     break;
                 case 2://settings
-                    rSrc = Helper.HasFeature(Enums.Features.Edit) ? MainForm.REdit : MainForm.REditOff;
+                    rSrc = MainForm.REdit;
                     break;
                 case 3://web
                     rSrc = Helper.HasFeature(Enums.Features.Access_Media) ? MainForm.RWeb : MainForm.RWebOff;
@@ -2721,8 +2721,8 @@ namespace iSpyApplication.Controls
                 lock (_lockobject)
                 {
                     
-                    var dt = Helper.Now.AddSeconds(0 - Camobject.recorder.bufferseconds);
-                    if (!Recording)
+                    var dt = e.TimeStamp.AddSeconds(0 - Camobject.recorder.bufferseconds);
+                    if (!ForcedRecording&&!Recording) //saintgene changed 10/08/2015
                     {
                         while (Buffer.Count > 0)
                         {
@@ -2741,7 +2741,7 @@ namespace iSpyApplication.Controls
                             }
                         }
                     }
-                    Buffer.Enqueue(new Helper.FrameAction(e.Frame, Camera.MotionLevel, Helper.Now));
+                    Buffer.Enqueue(new Helper.FrameAction(e.Frame, Camera.MotionLevel, e.TimeStamp)); //saintgene changed 10/08/2015
                 }
                 
 
@@ -2805,61 +2805,18 @@ namespace iSpyApplication.Controls
                     return;
                 }
                 _recordingStartTime = DateTime.UtcNow;
+                _recordingStopTime = DateTime.MaxValue;
                 _recordingThread = new Thread(Record)
                                    {
                                        Name = "Recording Thread (" + Camobject.id + ")",
                                        IsBackground = true,
-                                       Priority = ThreadPriority.Normal
+                                       Priority = ThreadPriority.Highest //saintgene changed 10/06/2015
                                    };
                 _stopWrite.Reset();
                 _recordingThread.Start();
             }
         }
 
-        public void OpenWebInterface()
-        {
-            if (SupportsWebInterface) { 
-                try
-                {
-                    var uri = new Uri(Camobject.settings.videosourcestring);
-                    var url = uri.AbsoluteUri.Replace(uri.PathAndQuery, "");
-                    if (!uri.Scheme.StartsWith("http"))
-                    {
-                        url = url.ReplaceFirst(uri.Scheme, "http");
-                        url = url.ReplaceFirst(":" + uri.Port, ":80");
-                    }
-                    MainForm.OpenUrl(url);
-                }
-                catch (Exception ex)
-                {
-                    MainForm.LogExceptionToFile(ex,"open web browser");
-                }
-            }
-        }
-
-        public bool SupportsWebInterface
-        {
-            get
-            {
-                switch (Camobject.settings.sourceindex)
-                {
-                    default:
-                        Uri uri;
-                        if (Uri.TryCreate(Camobject.settings.videosourcestring, UriKind.Absolute, out uri))
-                        {
-                            return !uri.IsFile;
-                        }
-                        return false;
-                    case 3:
-                    case 4:
-                    case 6:
-                    case 7:
-                    case 8:
-                    case 10:
-                        return false;
-                }
-            }
-        }
         [HandleProcessCorruptedStateExceptions]
         private void Record()
         {
@@ -2875,7 +2832,7 @@ namespace iSpyApplication.Controls
                 try
                 {
 
-                    if (!string.IsNullOrEmpty(Camobject.recorder.trigger))
+                    if (!String.IsNullOrEmpty(Camobject.recorder.trigger))
                     {
                         string[] tid = Camobject.recorder.trigger.Split(',');
                         switch (tid[0])
@@ -2898,7 +2855,7 @@ namespace iSpyApplication.Controls
                         DateTime date = DateTime.Now.AddHours(Convert.ToDouble(Camobject.settings.timestampoffset));
 
                         string filename =
-                            $"{date.Year}-{Helper.ZeroPad(date.Month)}-{Helper.ZeroPad(date.Day)}_{Helper.ZeroPad(date.Hour)}-{Helper.ZeroPad(date.Minute)}-{Helper.ZeroPad(date.Second)}";
+                            $"{date.Year}-{Helper.ZeroPad(date.Month)}-{Helper.ZeroPad(date.Day)}_{Helper.ZeroPad(date.Hour)}-{Helper.ZeroPad(date.Minute)}-{Helper.ZeroPad(date.Second)}";//saintgene mark
 
 
                         var vc = VolumeControl;
@@ -2910,7 +2867,7 @@ namespace iSpyApplication.Controls
                             vc.ForcedRecording = ForcedRecording;
                         }
 
-                        VideoFileName = Camobject.id + "_" + filename;
+                        VideoFileName = "Cam"+Camobject.id + "_" + filename + "_" + Camobject.RecCounter.ToString();//saintgene  modified 10/03/2015
                         string folder = Dir.Entry + "video\\" + Camobject.directory + "\\";
 
                         string videopath = folder + VideoFileName + CodecExtension;
@@ -2966,8 +2923,22 @@ namespace iSpyApplication.Controls
 
                             Helper.FrameAction? peakFrame = null;
                             bool first = true;
-
-                            while (!_stopWrite.WaitOne(5))
+                            bool bWriting = true;  //saintgene added 10/06/2015
+                            //--------------------------------------------------------------------------------------------//saintgene modifed 10/06/2015
+                            int iWait = 0;
+                            double Minint = 0;
+                            if (double.IsPositiveInfinity(Camera.Mininterval))
+                            {
+                                Minint = 1000d / Camobject.settings.framerate;
+                            }
+                            else
+                            {
+                                Minint = Camera.Mininterval;
+                            }
+                            iWait = (int)Math.Floor((Minint - (1000d / 150)) * 0.3); //150 is the max fr can be set
+                            iWait = Math.Min(iWait, 6);
+                            iWait = Math.Max(iWait,2);
+                            while (!_stopWrite.WaitOne(iWait)||bWriting) 
                             {
                                 Helper.FrameAction fa;
                                 if (Buffer.TryDequeue(out fa))
@@ -2978,9 +2949,22 @@ namespace iSpyApplication.Controls
                                         first = false;
                                     }
 
-                                    WriteFrame(fa, recordingStart, ref lastvideopts, ref maxAlarm, ref peakFrame,
-                                        ref lastaudiopts);
+                                    if (fa.TimeStamp <= _recordingStopTime)
+                                    {
+                                        WriteFrame(fa, recordingStart, ref lastvideopts, ref maxAlarm, ref peakFrame,
+                                          ref lastaudiopts);
+                                    }
+                                    else
+                                    {
+                                        bWriting = false;
+                                    }
                                 }
+                                else //saintgene added 10/06/2015
+                                {
+                                    if (Helper.Now > _recordingStopTime)
+                                        bWriting = false;
+                                }
+                             //----------------------------------------------------------------------------------------------//
                                 if (bAudio)
                                 {
                                     if (vc.Buffer.TryDequeue(out fa))
@@ -3138,7 +3122,7 @@ namespace iSpyApplication.Controls
                         ErrorHandler?.Invoke(ex.Message);
                     }
 
-                    if (!string.IsNullOrEmpty(Camobject.recorder.trigger))
+                    if (!String.IsNullOrEmpty(Camobject.recorder.trigger))
                     {
                         string[] tid = Camobject.recorder.trigger.Split(',');
                         switch (tid[0])
@@ -3168,6 +3152,7 @@ namespace iSpyApplication.Controls
                     MainForm.RecordingThreads--;
                 }
                 Camobject.newrecordingcount++;
+                Camobject.RecCounter++;//saintgene added 10/03/2015
 
                 Notification?.Invoke(this, new NotificationType("NewRecording", Camobject.name, previewImage));
 
@@ -3285,7 +3270,7 @@ namespace iSpyApplication.Controls
                     var o = Camera.Plugin.GetType();
                     var m = o.GetMethod("MotionDetect");
                     var r = (string) m?.Invoke(Camera.Plugin, null);
-                    if (!string.IsNullOrEmpty(r))
+                    if (!String.IsNullOrEmpty(r))
                     {
                         ProcessAlertFromPlugin(r,"Motion Detected");
                     }
@@ -3857,7 +3842,7 @@ namespace iSpyApplication.Controls
             _requestRefresh = true;
         }
 
-        public void Disable(bool stopSource = true)
+        public void Disable(bool stopSource = true) //saintgene marked
         {
             if (_disabling)
                 return;
@@ -4296,7 +4281,7 @@ namespace iSpyApplication.Controls
                     break;
                 case 4:
                     Rectangle area = Rectangle.Empty;
-                    if (!string.IsNullOrEmpty(Camobject.settings.desktoparea))
+                    if (!String.IsNullOrEmpty(Camobject.settings.desktoparea))
                     {
                         var i = System.Array.ConvertAll(Camobject.settings.desktoparea.Split(','), int.Parse);
                         area = new Rectangle(i[0], i[1], i[2], i[3]);
@@ -4328,7 +4313,7 @@ namespace iSpyApplication.Controls
                     var tw = false;
                     try
                     {
-                        if (!string.IsNullOrEmpty(Nv(Camobject.settings.namevaluesettings, "TripWires")))
+                        if (!String.IsNullOrEmpty(Nv(Camobject.settings.namevaluesettings, "TripWires")))
                             tw = Convert.ToBoolean(Nv(Camobject.settings.namevaluesettings, "TripWires"));
                         var ks = new KinectStream(Nv(Camobject.settings.namevaluesettings, "UniqueKinectId"),
                             Convert.ToBoolean(Nv(Camobject.settings.namevaluesettings, "KinectSkeleton")), tw);
@@ -4569,7 +4554,7 @@ namespace iSpyApplication.Controls
         public void SetVideoSourceProperties()
         {
             var videoSource = Camera.VideoSource as VideoCaptureDevice;
-            if (videoSource != null && !string.IsNullOrEmpty(Camobject.settings.procAmpConfig) && videoSource.SupportsProperties && Nv("manual")!="false")
+            if (videoSource != null && !String.IsNullOrEmpty(Camobject.settings.procAmpConfig) && videoSource.SupportsProperties && Nv("manual")!="false")
             {
                 try
                 {
@@ -4640,7 +4625,7 @@ namespace iSpyApplication.Controls
 
         public string Nv(string csv, string name)
         {
-            if (string.IsNullOrEmpty(csv))
+            if (String.IsNullOrEmpty(csv))
                 return "";
             name = name.ToLower().Trim();
             string[] settings = csv.Split(',');
@@ -4684,11 +4669,14 @@ namespace iSpyApplication.Controls
                 {
                     Enable();
                 }
+                ClearBuffer();//saintgene added 10/06/2015
                 ForcedRecording = true;
                 _requestRefresh = true;
+                _recordingStopTime = DateTime.MaxValue; //saintgene added 10/06/2015
                 return "recording," + LocRm.GetString("RecordingStarted");
             }
 
+            _recordingStopTime = Helper.Now; //saintgene added 10/06/2015
             ForcedRecording = false;
             try {
                 if (VolumeControl != null)
@@ -4966,7 +4954,7 @@ namespace iSpyApplication.Controls
                         try
                         {
                             string commands = c.GetValue(Camera.Plugin, null).ToString();
-                            if (!string.IsNullOrEmpty(commands))
+                            if (!String.IsNullOrEmpty(commands))
                             {
                                 return commands.Split(',').ToList();
                             }
@@ -5037,12 +5025,12 @@ namespace iSpyApplication.Controls
 
         private void ProcessAlertFromPlugin(string a, string description)
         {
-            if (!string.IsNullOrEmpty(a))
+            if (!String.IsNullOrEmpty(a))
             {
                 string[] actions = a.ToLower().Split(',');
                 foreach (var action in actions)
                 {
-                    if (!string.IsNullOrEmpty(action))
+                    if (!String.IsNullOrEmpty(action))
                     {
                         switch (action)
                         {
@@ -5201,7 +5189,7 @@ namespace iSpyApplication.Controls
                 {
                     if (_recordingThread != null && !_recordingThread.Join(TimeSpan.Zero))
                     {
-                        if (!_recordingThread.Join(3000))
+                        if (!_recordingThread.Join(3000))//Math.Max(3000,Camobject.recorder.bufferseconds*1000))) //saintgene changed 
                         {
                             _stopWrite.Set();
                         }
