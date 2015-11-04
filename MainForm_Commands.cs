@@ -1,20 +1,130 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Timers;
+using System.IO.Ports; //saintgene added 10/02/2015
+using System.Runtime.InteropServices; //saintgene
+using System.Threading; //saintgene
 using System.Windows.Forms;
 using iSpyApplication.Controls;
 using iSpyApplication.Joystick;
-using utils;
 
 namespace iSpyApplication
 {
     partial class MainForm
     {
+        private SerialPort _com;
         private JoystickDevice _jst;
         private readonly bool[] _buttonsLast = new bool[128];
         private bool _needstop, _sentdirection;
+
+
+        internal struct ExtTrigMsg //saintgene added 10/02/2015
+        {
+            public enum TRG_MSG_ID : byte
+            {
+                STOP = 0,
+                START
+            }
+
+            public TRG_MSG_ID btMsgID;
+            public Int32 iFrmInt; //us
+        }
+
+        private void InitCom() //saintgene added 10/02/2015
+        {
+            if(_com != null)
+            {
+                if (_com.IsOpen)
+                    _com.Close();
+                _com.Dispose();
+                _com = null;
+            }
+
+            if(Conf.SerialPort != 0)
+            {
+                _com = new SerialPort("Com" + Conf.SerialPort, 9600, Parity.None,8, StopBits.One);
+                _com.Handshake = Handshake.None;
+                _com.WriteTimeout = 500;
+                TryOpenCom();
+            }
+
+        }
+
+        public void ChangeComPort(uint uiPort) //saintgene added 10/02/2015
+        {
+            if (Conf.SerialPort != uiPort)
+            {
+                Conf.SerialPort = (int)uiPort;
+                InitCom();
+            }
+        }
+
+
+        byte[] TrigMsg2ByteArray(ExtTrigMsg _TrigMsg) //saintgene added 10/04/2015
+        {
+            byte[] btBuffer = new byte[5];
+            btBuffer[0] = (byte)_TrigMsg.btMsgID;
+
+            byte[] intBytes = BitConverter.GetBytes(_TrigMsg.iFrmInt);
+            System.Array.Copy(intBytes, 0, btBuffer, 1, intBytes.Length);
+
+            return btBuffer;
+        }
+
+        public void ComTrigExt(bool bStart) //saintgene added 10/02/2015
+        {
+            if(_com != null)
+            {
+                ValidateExtTrigFR();
+                if (_com.IsOpen)
+                {
+                    ExtTrigMsg _TrigMsg;
+                    if (bStart)
+                    {
+                        _TrigMsg.btMsgID = ExtTrigMsg.TRG_MSG_ID.START;
+                        _TrigMsg.iFrmInt = (int)(1e6/Conf.ExtTrigFR);
+                    }
+                    else
+                    {
+                        _TrigMsg.btMsgID = ExtTrigMsg.TRG_MSG_ID.STOP;
+                        _TrigMsg.iFrmInt = 0;
+                    }
+
+                    byte[] btBuffer = TrigMsg2ByteArray(_TrigMsg);
+
+                    try
+                    {
+                        _com.Write(btBuffer, 0, btBuffer.Length);
+                    }
+                    catch
+                    {
+                        _com.Close();
+                        _com.Dispose();
+                        _com = null;
+                        Conf.SerialPort = 0;
+                    }
+                }
+            }     
+        }
+
+        private void TryOpenCom() //saintgene added 10/02/2015
+        {
+            try
+            {
+                _com.Open();
+            }
+            catch
+            {
+                if (_com.IsOpen)
+                    _com.Close();
+                _com.Dispose();
+                _com = null;
+                Conf.SerialPort = 0;
+                return;
+            }
+        }
+
 
         void TmrJoystickElapsed(object sender, ElapsedEventArgs e)
         {
@@ -338,9 +448,59 @@ namespace iSpyApplication
             }
         }
 
+        public void ValidateExtTrigFR() //saintgene added 10/06/2015
+        {
+            int iTrigFR = Conf.ExtTrigFR;
+            foreach (Control c in _pnlCameras.Controls)//saintgene mark
+            {
+                var window = c as CameraWindow;
+                if (window != null)
+                {
+                    var cameraControl = window;
+                    if (cameraControl.IsEnabled)
+                    {
+                        if (cameraControl.Camobject.settings.maxframeraterecord != 0)
+                        {
+                            cameraControl.Camobject.settings.maxframeraterecord = Math.Max((int)Math.Ceiling(iTrigFR * 1.1), cameraControl.Camobject.settings.maxframeraterecord);
+                        }
+
+                        if (cameraControl.Camobject.settings.maxframerate != 0)
+                        {
+                            cameraControl.Camobject.settings.maxframerate = Math.Max((int)Math.Ceiling(iTrigFR * 1.1), cameraControl.Camobject.settings.maxframerate);
+                        }
+                    }
+                }
+            }
+        }
+
+        //public uint TrigFrameRate() //saintgene added 10/01/2015
+        //{
+        //    uint uiTrigFR = uint.MaxValue;
+        //    foreach (Control c in _pnlCameras.Controls)//saintgene mark
+        //    {
+        //        var window = c as CameraWindow;
+        //        if (window != null)
+        //        {
+        //            var cameraControl = window;
+        //            if (cameraControl.IsEnabled)
+        //            {
+        //                uiTrigFR = Math.Min(uiTrigFR,Convert.ToUInt32(cameraControl.Camobject.settings.maxframeraterecord)); 
+        //            }
+        //        }
+        //    }
+
+        //    return uiTrigFR;
+        // }
+        //---------------------------------------------------------------------------------------------------------//saintgene modified 10/02/2015
         public void RecordAll(bool record)
         {
-            foreach (Control c in _pnlCameras.Controls)
+            if (!record)
+            {
+                ComTrigExt(record);
+                Thread.Sleep(300);
+            }
+
+            foreach (Control c in _pnlCameras.Controls)//saintgene mark
             {
                 var window = c as CameraWindow;
                 if (window != null)
@@ -356,8 +516,13 @@ namespace iSpyApplication
                 if (volumeControl.IsEnabled)
                     volumeControl.RecordSwitch(record);
             }
+            if (record)
+            {
+               // Thread.Sleep(200);
+                ComTrigExt(record);
+            }
         }
-
+        //---------------------------------------------------------------------------------------------------------//
         private void ShowRemoteCommands()
         {
             var ma = new RemoteCommands { Owner = this };
@@ -366,18 +531,17 @@ namespace iSpyApplication
             LoadCommands();
         }
 
-        public static objectsCommand[] GenerateRemoteCommands()
+        public static void InitRemoteCommands()
         {
             //copy over 
-            var lcom = new List<objectsCommand>();
+            _remotecommands.Clear();
             var cmd = new objectsCommand
             {
                 command = "ispy ALLON",
                 id = 0,
                 name = "cmd_SwitchAllOn",
             };
-
-            lcom.Add(cmd);
+            _remotecommands.Add(cmd);
 
             cmd = new objectsCommand
             {
@@ -385,7 +549,7 @@ namespace iSpyApplication
                 id = 1,
                 name = "cmd_SwitchAllOff",
             };
-            lcom.Add(cmd);
+            _remotecommands.Add(cmd);
 
             cmd = new objectsCommand
             {
@@ -393,7 +557,7 @@ namespace iSpyApplication
                 id = 2,
                 name = "cmd_ApplySchedule",
             };
-            lcom.Add(cmd);
+            _remotecommands.Add(cmd);
 
             if (Helper.HasFeature(Enums.Features.Recording))
             {
@@ -403,7 +567,7 @@ namespace iSpyApplication
                           id = 3,
                           name = "cmd_RecordOnDetectAll",
                       };
-                lcom.Add(cmd);
+                _remotecommands.Add(cmd);
 
                 cmd = new objectsCommand
                       {
@@ -411,7 +575,7 @@ namespace iSpyApplication
                           id = 4,
                           name = "cmd_RecordOnAlertAll",
                       };
-                lcom.Add(cmd);
+                _remotecommands.Add(cmd);
 
                 cmd = new objectsCommand
                       {
@@ -419,7 +583,7 @@ namespace iSpyApplication
                           id = 5,
                           name = "cmd_RecordOffAll",
                       };
-                lcom.Add(cmd);
+                _remotecommands.Add(cmd);
 
                 cmd = new objectsCommand
                 {
@@ -427,7 +591,7 @@ namespace iSpyApplication
                     id = 8,
                     name = "cmd_RecordAll",
                 };
-                lcom.Add(cmd);
+                _remotecommands.Add(cmd);
 
                 cmd = new objectsCommand
                 {
@@ -435,7 +599,23 @@ namespace iSpyApplication
                     id = 9,
                     name = "cmd_RecordAllStop",
                 };
-                lcom.Add(cmd);
+                _remotecommands.Add(cmd);
+
+                cmd = new objectsCommand //saintgene added 10/05/2015
+                {
+                    command = "ispy TESTEXTTRIG",
+                    id = 11,
+                    name = "cmd_TestExtTrig",
+                };
+                _remotecommands.Add(cmd);
+
+                cmd = new objectsCommand //saintgene added 10/05/2015
+                {
+                    command = "ispy STOPEXTTRIG",
+                    id = 12,
+                    name = "cmd_StopExtTrig",
+                };
+                _remotecommands.Add(cmd);
             }
 
             cmd = new objectsCommand
@@ -444,7 +624,7 @@ namespace iSpyApplication
                 id = 6,
                 name = "cmd_AlertsOnAll",
             };
-            lcom.Add(cmd);
+            _remotecommands.Add(cmd);
 
             cmd = new objectsCommand
             {
@@ -452,7 +632,7 @@ namespace iSpyApplication
                 id = 7,
                 name = "cmd_AlertsOffAll",
             };
-            lcom.Add(cmd);
+            _remotecommands.Add(cmd);
 
             if (Helper.HasFeature(Enums.Features.Save_Frames))
             {
@@ -463,9 +643,8 @@ namespace iSpyApplication
                           id = 10,
                           name = "cmd_SnapshotAll",
                       };
-                lcom.Add(cmd);
+                _remotecommands.Add(cmd);
             }
-            return lcom.ToArray();
         }
 
         public void RunCommand(int commandIndex)
@@ -474,9 +653,9 @@ namespace iSpyApplication
 
             if (oc != null)
             {
-                if (!string.IsNullOrEmpty(oc.command))
+                if (!String.IsNullOrEmpty(oc.command))
                     RunCommand(oc.command);
-                if (!string.IsNullOrEmpty(oc.emitshortcut))
+                if (!String.IsNullOrEmpty(oc.emitshortcut))
                 {
                     var converter = new KeysConverter();
                     var keys = converter.ConvertFromString(oc.emitshortcut);
@@ -547,21 +726,6 @@ namespace iSpyApplication
 
         public void ProcessKey(string keycommand)
         {
-            //non-specific commands
-            switch (keycommand.ToLower())
-            {
-                case "standby":
-                case "back":
-                case "power":
-                    Close();
-                    return;
-                case "import":
-                    using (var imp = new Importer())
-                    {
-                        imp.ShowDialog(this);
-                    }
-                    return;
-            }
             int i;
             var c = GetActiveControl(out i);
             if (i == -1)
@@ -626,6 +790,11 @@ namespace iSpyApplication
                         Maximise(c);
                     }
                     break;
+                case "standby":
+                case "back":
+                case "power":
+                   Close();
+                    break;
                 case "delete":
                     if (cw != null)
                     {
@@ -664,20 +833,7 @@ namespace iSpyApplication
                         EditFloorplan(fp.Fpobject);
 
                     break;
-                case "tags":
-                    if (cw != null)
-                    {
-                        using (TagConfigure tc = new TagConfigure { TagsNV = cw.Camobject.settings.tagsnv, Owner = this })
-                        {
-                            if (tc.ShowDialog() == DialogResult.OK)
-                            {
-                                cw.Camobject.settings.tagsnv = tc.TagsNV;
-                                if (cw.Camera!=null)
-                                    cw.Camera.Tags = null;
-                            }
-                        }
-                    }
-                    break;
+
             }
         }
     }
