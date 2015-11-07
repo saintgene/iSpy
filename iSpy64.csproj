@@ -1128,9 +1128,10 @@
     <Compile Include="XML\filelist.cs">
       <DependentUpon>FileList.xsd</DependentUpon>
     </Compile>
-    <Compile Include="XML\objects.cs">
+    <Compile Include="..\xsd\objects.cs">
       <DependentUpon>objects.xsd</DependentUpon>
       <SubType>code</SubType>
+      <Link>XML\objects.cs</Link>
     </Compile>
     <Compile Include="XML\ptz2.cs">
       <DependentUpon>PTZ2.xsd</DependentUpon>
@@ -1632,8 +1633,9 @@
     <None Include="XML\FileList.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="XML\objects.xsd">
+    <None Include="..\xsd\objects.xsd">
       <SubType>Designer</SubType>
+      <Link>XML\objects.xsd</Link>
     </None>
     <None Include="XML\PTZ2.xsd">
       <SubType>Designer</SubType>

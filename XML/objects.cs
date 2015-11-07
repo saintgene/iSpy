@@ -141,8 +141,6 @@ public partial class objectsCamera {
     
     private string directoryField;
     
-    private int recCounterField;
-    
     private bool flipxField;
     
     private bool flipyField;
@@ -172,7 +170,6 @@ public partial class objectsCamera {
     private int surfaceIDField;
     
     public objectsCamera() {
-        this.recCounterField = 0;
         this.rotate90Field = false;
         this.rotateModeField = "";
         this.ptzentryindexField = 0;
@@ -321,18 +318,6 @@ public partial class objectsCamera {
         }
         set {
             this.directoryField = value;
-        }
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlAttributeAttribute()]
-    [System.ComponentModel.DefaultValueAttribute(0)]
-    public int RecCounter {
-        get {
-            return this.recCounterField;
-        }
-        set {
-            this.recCounterField = value;
         }
     }
     
@@ -2049,6 +2034,7 @@ public partial class objectsCameraSavelocal {
     public objectsCameraSavelocal() {
         this.filenameField = "{0:yyyy-MM-dd_HH-mm-ss_fff}.jpg";
         this.intervalnewField = -1D;
+        this.counterField = 0;
         this.minimumdelayField = 0D;
         this.modeField = 2;
         this.textField = "www.ispyconnect.com";

@@ -2867,7 +2867,7 @@ namespace iSpyApplication.Controls
                             vc.ForcedRecording = ForcedRecording;
                         }
 
-                        VideoFileName = "Cam"+Camobject.id + "_" + filename + "_" + Camobject.RecCounter.ToString();//saintgene  modified 10/03/2015
+                        VideoFileName = "Cam"+Camobject.id + "_" + filename + "_" + Camobject.newrecordingcount.ToString();//saintgene  modified 11/06/2015
                         string folder = Dir.Entry + "video\\" + Camobject.directory + "\\";
 
                         string videopath = folder + VideoFileName + CodecExtension;
@@ -3152,7 +3152,7 @@ namespace iSpyApplication.Controls
                     MainForm.RecordingThreads--;
                 }
                 Camobject.newrecordingcount++;
-                Camobject.RecCounter++;//saintgene added 10/03/2015
+                //Camobject.RecCounter++;//saintgene added 10/03/2015
 
                 Notification?.Invoke(this, new NotificationType("NewRecording", Camobject.name, previewImage));
 

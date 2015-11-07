@@ -28,7 +28,7 @@ namespace iSpyApplication
             }
 
             public TRG_MSG_ID btMsgID;
-            public Int32 iFrmInt; //us
+            public Int32 iFR; //Hz
         }
 
         private void InitCom() //saintgene added 10/02/2015
@@ -66,7 +66,7 @@ namespace iSpyApplication
             byte[] btBuffer = new byte[5];
             btBuffer[0] = (byte)_TrigMsg.btMsgID;
 
-            byte[] intBytes = BitConverter.GetBytes(_TrigMsg.iFrmInt);
+            byte[] intBytes = BitConverter.GetBytes(_TrigMsg.iFR);
             System.Array.Copy(intBytes, 0, btBuffer, 1, intBytes.Length);
 
             return btBuffer;
@@ -83,12 +83,12 @@ namespace iSpyApplication
                     if (bStart)
                     {
                         _TrigMsg.btMsgID = ExtTrigMsg.TRG_MSG_ID.START;
-                        _TrigMsg.iFrmInt = (int)(1e6/Conf.ExtTrigFR);
+                        _TrigMsg.iFR = Conf.ExtTrigFR;//(int)(1e6/Conf.ExtTrigFR);
                     }
                     else
                     {
                         _TrigMsg.btMsgID = ExtTrigMsg.TRG_MSG_ID.STOP;
-                        _TrigMsg.iFrmInt = 0;
+                        _TrigMsg.iFR = 0;
                     }
 
                     byte[] btBuffer = TrigMsg2ByteArray(_TrigMsg);

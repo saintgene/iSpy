@@ -297,7 +297,7 @@ namespace iSpyApplication
             }
 
             txtDirectory.Text = CameraControl.Camobject.directory;
-            numRecCounter.Value = CameraControl.Camobject.RecCounter; //saintgene added 10/03/2015
+            numRecCounter.Value = CameraControl.Camobject.newrecordingcount; //saintgene added 10/03/2015
             
             rdoContinuous.Checked = CameraControl.Camobject.alerts.processmode == "continuous";
             rdoMotion.Checked = CameraControl.Camobject.alerts.processmode == "motion";
@@ -1222,7 +1222,7 @@ namespace iSpyApplication
             }
                 
             CameraControl.Camobject.directory = txtDirectory.Text;
-            CameraControl.Camobject.RecCounter = (int)numRecCounter.Value; //saintgene added 10/03/2015
+            CameraControl.Camobject.newrecordingcount = (int)numRecCounter.Value; //saintgene added 10/03/2015
                 
 
             CameraControl.Camobject.schedule.active = chkSchedule.Checked;
