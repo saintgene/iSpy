@@ -303,7 +303,9 @@ public partial class configuration {
     private string referersField;
     
     private string encryptCodeField;
-    
+
+    private string tagsField;
+
     private int portMapperModeField;
     
     private int serialPortField;
@@ -392,6 +394,7 @@ public partial class configuration {
         this.vLCFileCacheField = 3000;
         this.referersField = "";
         this.encryptCodeField = "";
+        this.tagsField = "";
         this.portMapperModeField = 2;
         this.serialPortField = 0;
         this.extTrigFRField = 30;
@@ -1796,7 +1799,17 @@ public partial class configuration {
             this.encryptCodeField = value;
         }
     }
-    
+
+    /// <remarks/>
+    public string Tags{
+        get{
+            return this.tagsField;
+        }
+        set{
+            this.tagsField = value;
+        }
+    }
+
     /// <remarks/>
     public int PortMapperMode {
         get {

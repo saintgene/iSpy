@@ -45,7 +45,7 @@ namespace iSpyApplication
                         MainForm.AddObject(ent);
                     }
                                        
-                    mainForm.DisplayCamera(o.C, true);
+                    mainForm.DisplayCamera(o.C);
                 }
                 //if (o?.M != null)
                 //{

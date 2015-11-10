@@ -252,7 +252,7 @@ namespace iSpyApplication
                 if (String.IsNullOrEmpty(_conf.BorderDefaultColor))
                     _conf.BorderDefaultColor = "0,0,0";
 
-                if (String.IsNullOrEmpty(_conf.StartupForm))
+                if (string.IsNullOrEmpty(_conf.StartupForm))
                     _conf.StartupForm = "iSpy";
 
                 if (_conf.GridViews == null)
@@ -261,7 +261,7 @@ namespace iSpyApplication
                 if (_conf.Joystick == null)
                     _conf.Joystick = new configurationJoystick();
 
-                if (String.IsNullOrEmpty(_conf.AppendLinkText))
+                if (string.IsNullOrEmpty(_conf.AppendLinkText))
                     _conf.AppendLinkText = "<br/>ispyconnect.com";
 
                 if (_conf.FeatureSet < 1)
@@ -278,7 +278,7 @@ namespace iSpyApplication
                     _conf.IPv6Disabled = !(Socket.OSSupportsIPv6);
                 }
                 
-                if (String.IsNullOrEmpty(_conf.EncryptCode))
+                if (string.IsNullOrEmpty(_conf.EncryptCode))
                 {
                     _conf.EncryptCode = Guid.NewGuid().ToString();
                 }
@@ -308,7 +308,7 @@ namespace iSpyApplication
                                     };
                 }
 
-                if (!String.IsNullOrEmpty(_conf.WSPassword) && _conf.WSPasswordEncrypted)
+                if (!string.IsNullOrEmpty(_conf.WSPassword) && _conf.WSPasswordEncrypted)
                     _conf.WSPassword = EncDec.DecryptData(_conf.WSPassword, "582df37b-b7cc-43f7-a442-30a2b188a888");
 
                 return _conf;
@@ -644,6 +644,33 @@ namespace iSpyApplication
 
         private static void LoadObjects(string path)
         {
+            try
+            {
+                var o = GetObjects(path);
+                _cameras = o.cameras.ToList();
+                _microphones = o.microphones.ToList();
+                _floorplans = o.floorplans.ToList();
+                _remotecommands = o.remotecommands.ToList();
+                _actions = o.actions.entries.ToList();
+            }
+            catch (Exception ex)
+            {
+                LogExceptionToFile(ex);
+                MessageBox.Show(LocRm.GetString("ConfigurationChanged"), LocRm.GetString("Error"));
+                _cameras = new List<objectsCamera>();
+                _microphones = new List<objectsMicrophone>();
+                _remotecommands = GenerateRemoteCommands().ToList();
+                _actions = new List<objectsActionsEntry>();
+                _floorplans = new List<objectsFloorplan>();
+            }
+
+            Filter.CheckedCameraIDs = new List<int>();
+            Filter.CheckedMicIDs = new List<int>();
+            Filter.Filtered = false;
+        }
+
+        public static objects GetObjects(string path)
+        {
             var c = new objects();
             try
             {
@@ -666,49 +693,52 @@ namespace iSpyApplication
                 switch (MessageBox.Show($"Error loading file ({ex.Message}) Try again?", "Error", MessageBoxButtons.YesNo))
                 {
                     case DialogResult.Yes:
-                        LoadObjects(path);
-                        return;
+                        return GetObjects(path);
                 }
             }
-            try
+
+            if (c.cameras == null)
+                c.cameras = new objectsCamera[] { };
+
+            bool addActions = c.actions?.entries == null;
+            if (addActions)
+                c.actions = new objectsActions { entries = new objectsActionsEntry[] { } };
+
+
+            if (c.cameras.Select(oc => oc.settings.desktopresizewidth).Any(rw => rw == 0))
             {
-                _cameras = c.cameras?.ToList() ?? new List<objectsCamera>();
-                bool addActions = c.actions == null;
-                _actions = addActions ? new List<objectsActionsEntry>() : c.actions.entries.ToList();
+                throw new Exception("err_old_config");
+            }
 
+            if (c.microphones == null)
+                c.microphones = new objectsMicrophone[] { };
+            if (c.floorplans == null)
+                c.floorplans = new objectsFloorplan[] { };
 
-                if (_cameras.Select(oc => oc.settings.desktopresizewidth).Any(rw => rw == 0))
-                {
-                    throw new Exception("err_old_config");
-                }
+            if (c.remotecommands == null)
+                c.remotecommands = new objectsCommand[] { };
 
-                _microphones = c.microphones?.ToList() ?? new List<objectsMicrophone>();
+            if (c.remotecommands.Length == 0)
+            {
+                c.remotecommands = GenerateRemoteCommands();
+            }
 
-                _floorplans = c.floorplans?.ToList() ?? new List<objectsFloorplan>();
-
-                _remotecommands = c.remotecommands?.ToList() ?? new List<objectsCommand>();
-
-                if (_remotecommands.Count == 0)
-                {
-                    InitRemoteCommands();
-                }
-
-                bool bVlc = VlcHelper.VlcInstalled;
+            bool bVlc = VlcHelper.VlcInstalled;
 
                 bool bAlertVlc = false;
                 int camid = 0;
                 string path2;
-                //load non clones first
-                _cameras = _cameras.OrderByDescending(p => p.settings.sourceindex != 10).ToList();
-                _microphones = _microphones.OrderByDescending(p => p.settings.typeindex != 5).ToList();
+            //load non clones first
+            c.cameras = c.cameras.ToList().OrderByDescending(p => p.settings.sourceindex != 10).ToArray();
+            c.microphones = c.microphones.ToList().OrderByDescending(p => p.settings.typeindex != 5).ToArray();
 
-                foreach (objectsCamera cam in _cameras)
-                {
+            foreach (objectsCamera cam in c.cameras)
+            {
                     if (cam.id >= camid)
                         camid = cam.id + 1;
 
-                    path2 = Helper.GetMediaDirectory(2, cam.id) + "video\\" + cam.directory + "\\";
-                    if (cam.settings.sourceindex == 5 && !bVlc)
+                path2 = Helper.GetMediaDirectory(cam.settings.directoryIndex) + "video\\" + cam.directory + "\\";
+                if (cam.settings.sourceindex == 5 && !bVlc)
                     {
                         bAlertVlc = true;
                     }
@@ -805,39 +835,41 @@ namespace iSpyApplication
                         cam.alertevents.entries = l.ToArray();
 
                     }
-                    
-                    if (addActions)
+
+                if (addActions)
+                {
+                    var l = c.actions.entries.ToList();
+                    l.AddRange(cam.alertevents.entries.Select(a => new objectsActionsEntry
                     {
-                        _actions.AddRange(cam.alertevents.entries.Select(a => new objectsActionsEntry
-                                                                       {
-                                                                           mode = "alert", 
-                                                                           objectid = cam.id, 
-                                                                           objecttypeid = 2,
-                                                                           type = a.type,
-                                                                           param1 = a.param1, 
-                                                                           param2 = a.param2, 
-                                                                           param3 = a.param3, 
-                                                                           param4 = a.param4
-                                                                       }));
-                        if (!String.IsNullOrEmpty(cam.settings.emailondisconnect))
+                        mode = "alert",
+                        objectid = cam.id,
+                        objecttypeid = 2,
+                        type = a.type,
+                        param1 = a.param1,
+                        param2 = a.param2,
+                        param3 = a.param3,
+                        param4 = a.param4
+                    }));
+                    if (!string.IsNullOrEmpty(cam.settings.emailondisconnect))
+                    {
+                        l.Add(new objectsActionsEntry
                         {
-                            _actions.Add(new objectsActionsEntry
-                            {
-                                mode = "disconnect",
-                                objectid = cam.id,
-                                objecttypeid = 2,
-                                type = "E",
-                                param1 = cam.settings.emailondisconnect,
-                                param2 = "False"
-                            });
-                        }
+                            mode = "disconnect",
+                            objectid = cam.id,
+                            objecttypeid = 2,
+                            type = "E",
+                            param1 = cam.settings.emailondisconnect,
+                            param2 = "False"
+                        });
                     }
-                    
-                    cam.newrecordingcount = 0;
-                    //if (cam.settings.maxframerate == 0)//saintgene deleted 10/08/2015
-                    //    cam.settings.maxframerate = 10;
-                    //if (cam.settings.maxframeraterecord == 0)
-                    //    cam.settings.maxframeraterecord = 10;
+                    c.actions.entries = l.ToArray();
+                }
+
+                cam.newrecordingcount = 0;
+                    if (cam.settings.maxframerate < 0)//saintgene changed 10/08/2015
+                        cam.settings.maxframerate = 0;
+                    if (cam.settings.maxframeraterecord < 0)
+                        cam.settings.maxframeraterecord = 0;
                     if (cam.settings.timestampfontsize == 0)
                         cam.settings.timestampfontsize = 10;
                     if (cam.recorder.timelapsesave == 0)
@@ -1011,7 +1043,7 @@ namespace iSpyApplication
                     }
 
 
-                    path2 = Helper.GetMediaDirectory(2, cam.id) + "video\\" + cam.directory + "\\thumbs\\";
+                    path2 = Helper.GetMediaDirectory(cam.settings.directoryIndex) + "video\\" + cam.directory + "\\thumbs\\";
                     if (!Directory.Exists(path2))
                     {
                         try
@@ -1024,7 +1056,7 @@ namespace iSpyApplication
                         }
                     }
 
-                    path2 = Helper.GetMediaDirectory(2, cam.id) + "video\\" + cam.directory + "\\grabs\\";
+                    path2 = Helper.GetMediaDirectory(cam.settings.directoryIndex) + "video\\" + cam.directory + "\\grabs\\";
                     if (!Directory.Exists(path2))
                     {
                         try
@@ -1065,14 +1097,14 @@ namespace iSpyApplication
                     }
                 }
                 int micid = 0;
-                foreach (objectsMicrophone mic in _microphones)
+                foreach (objectsMicrophone mic in c.microphones)
                 {
                     if (mic.id >= micid)
                         micid = mic.id + 1;
                     if (mic.directory == null)
                         throw new Exception("err_old_config");
                     mic.newrecordingcount = 0;
-                    path2 = Helper.GetMediaDirectory(1, mic.id) + "audio\\" + mic.directory + "\\";
+                    path2 = Helper.GetMediaDirectory(mic.settings.directoryIndex) + "audio\\" + mic.directory + "\\";
                     if (!Directory.Exists(path2))
                         Directory.CreateDirectory(path2);
 
@@ -1160,7 +1192,8 @@ namespace iSpyApplication
 
                     if (addActions)
                     {
-                        _actions.AddRange(mic.alertevents.entries.Select(a => new objectsActionsEntry
+                        var l = c.actions.entries.ToList();
+                        l.AddRange(mic.alertevents.entries.Select(a => new objectsActionsEntry
                         {
                             mode = "alert",
                             objectid = mic.id,
@@ -1173,16 +1206,17 @@ namespace iSpyApplication
                         }));
                         if (!String.IsNullOrEmpty(mic.settings.emailondisconnect))
                         {
-                            _actions.Add(new objectsActionsEntry
-                                  {
-                                      mode = "disconnect",
-                                      objectid = mic.id,
-                                      objecttypeid = 1,
-                                      type = "E",
-                                      param1 = mic.settings.emailondisconnect,
-                                      param2 = "False"
-                                  });
+                            l.Add(new objectsActionsEntry
+                            {
+                                mode = "disconnect",
+                                objectid = mic.id,
+                                objecttypeid = 1,
+                                type = "E",
+                                param1 = mic.settings.emailondisconnect,
+                                param2 = "False"
+                            });
                         }
+                        c.actions.entries = l.ToArray();
                     }
 
                     if (mic.x < 0)
@@ -1197,7 +1231,7 @@ namespace iSpyApplication
                         mic.alerts.trigger = "";
                 }
                 int fpid = 0;
-                foreach (objectsFloorplan ofp in _floorplans)
+                foreach (objectsFloorplan ofp in c.floorplans)
                 {
                     if (ofp.id >= fpid)
                         fpid = ofp.id + 1;
@@ -1210,7 +1244,7 @@ namespace iSpyApplication
                         ofp.accessgroups = "";
                 }
                 int rcid = 0;
-                foreach (objectsCommand ocmd in _remotecommands)
+                foreach (objectsCommand ocmd in c.remotecommands)
                 {
                     if (ocmd.id >= rcid)
                         rcid = ocmd.id + 1;
@@ -1228,25 +1262,8 @@ namespace iSpyApplication
                 }
                 SaveConfig();
                 NeedsSync = true;
-                LogMessageToFile("Loaded " + _cameras.Count + " cameras, " + _microphones.Count + " mics and " + _floorplans.Count + " floorplans");
-            }
-            catch (Exception ex)
-            {
-                LogExceptionToFile(ex);
-                MessageBox.Show(LocRm.GetString("ConfigurationChanged"), LocRm.GetString("Error"));
-                _cameras = new List<objectsCamera>();
-                _microphones = new List<objectsMicrophone>();
-                _remotecommands = new List<objectsCommand>();
-                _actions = new List<objectsActionsEntry>();
-                _floorplans = new List<objectsFloorplan>();
-
-                InitRemoteCommands();
-                
-            }
-
-            Filter.CheckedCameraIDs = new List<int>();
-            Filter.CheckedMicIDs = new List<int>();
-            Filter.Filtered = false;
+                LogMessageToFile("Loaded " + c.cameras.Length + " cameras, " + c.microphones.Length + " mics and " + c.floorplans.Length + " floorplans");
+                return c;
         }
 
         internal static int NextCameraId
@@ -1839,7 +1856,7 @@ namespace iSpyApplication
             fpc.MouseMove += FloorPlanMouseMove;
         }
 
-        private void DisplayMicrophone(objectsMicrophone mic)
+        public void DisplayMicrophone(objectsMicrophone mic)
         {
             var micControl = new VolumeLevel(mic,this);
             SetMicrophoneEvents(micControl);
@@ -3526,7 +3543,7 @@ namespace iSpyApplication
 
         #region RestoreSavedCameras
 
-        private void DisplayCamera(objectsCamera cam)
+        public void DisplayCamera(objectsCamera cam)
         {
             var cameraControl = new CameraWindow(cam,this);
             SetCameraEvents(cameraControl);

@@ -554,7 +554,9 @@ public partial class objectsCameraSettings {
     private string timestampfontField;
     
     private bool timestampshowbackField;
-    
+
+    private string tagsnvField;
+
     private string desktopareaField;
     
     private string vlcargsField;
@@ -1024,7 +1026,17 @@ public partial class objectsCameraSettings {
             this.timestampshowbackField = value;
         }
     }
-    
+
+    /// <remarks/>
+    public string tagsnv{
+        get{
+            return this.tagsnvField;
+        }
+        set{
+            this.tagsnvField = value;
+        }
+    }
+
     /// <remarks/>
     public string desktoparea {
         get {

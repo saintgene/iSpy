@@ -835,7 +835,10 @@ namespace iSpyApplication.Controls
                                         }
                                         break;
                                     case 2:
-                                        MainClass.EditCamera(Camobject);
+                                        if (Helper.HasFeature(Enums.Features.Edit))
+                                        {
+                                            MainClass.EditCamera(Camobject);
+                                        }
                                         break;
                                     case 3:
                                         if (Helper.HasFeature(Enums.Features.Access_Media))
@@ -909,7 +912,8 @@ namespace iSpyApplication.Controls
                 if (!InvokeRequired)
                 {
                     MessageBox.Show(obj, LocRm.GetString("ConfigureTalk"));
-                    MainClass.EditCamera(Camobject, f);
+                    if (Helper.HasFeature(Enums.Features.Edit))
+                        MainClass.EditCamera(Camobject, f);
                 }
             }
             else
@@ -931,7 +935,8 @@ namespace iSpyApplication.Controls
                 if (Camobject.settings.audiomodel == "None")
                 {
                     MessageBox.Show(obj, LocRm.GetString("ConfigureTalk"));
-                    MainClass.EditCamera(Camobject, f);
+                    if (Helper.HasFeature(Enums.Features.Edit))
+                        MainClass.EditCamera(Camobject, f);
                 }
                 else
                 {
@@ -2529,7 +2534,7 @@ namespace iSpyApplication.Controls
                     }
                     break;
                 case 2://settings
-                    rSrc = MainForm.REdit;
+                    rSrc = Helper.HasFeature(Enums.Features.Edit) ? MainForm.REdit : MainForm.REditOff;
                     break;
                 case 3://web
                     rSrc = Helper.HasFeature(Enums.Features.Access_Media) ? MainForm.RWeb : MainForm.RWebOff;
